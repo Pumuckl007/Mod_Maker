@@ -1,0 +1,46 @@
+package modmaker.gui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JToolBar;
+import javax.swing.SpringLayout;
+
+import modmaker.Start;
+
+public class DialogExportingGui {
+	public JFrame frame;
+	public boolean isFrameOpen;
+	public void popUpFrame(String title){
+		if(!isFrameOpen){
+			this.isFrameOpen = true;
+			SpringLayout layout = new SpringLayout();
+			frame = new JFrame(title);
+			frame.setLayout(layout);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setLocation(100, 100);
+			JButton doneButton = new JButton("Done");
+			frame.add(doneButton);
+			doneButton.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					System.out.println("Doned");
+					Start.gui.modInfo.frame.dispose();
+					Start.gui.modInfo.isFrameOpen = false;
+				}
+
+			});
+			layout.putConstraint(SpringLayout.SOUTH, doneButton,-20,SpringLayout.SOUTH, frame.getContentPane());
+			layout.putConstraint(SpringLayout.WEST, doneButton,20,SpringLayout.WEST, frame.getContentPane());
+
+			Gui.stardardLookAndFeel(frame);
+
+			frame.setSize(500, 375);
+			//5. Show it.
+			frame.setVisible(true);
+		}
+	}
+}

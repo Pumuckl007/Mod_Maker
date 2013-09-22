@@ -1,0 +1,8 @@
+package modmaker.gui;
+
+public class Quad {
+	private Icon icon;
+	public Quad(Icon icon){
+		
+	}
+}

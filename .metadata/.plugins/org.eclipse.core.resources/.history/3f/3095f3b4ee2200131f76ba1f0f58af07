@@ -1,0 +1,7 @@
+package modmaker;
+
+import de.matthiasmann.twl.Widget;
+
+public class ModMakerUI extends Widget{
+
+}

@@ -1,0 +1,17 @@
+package modmaker.gui;
+
+import org.lwjgl.opengl.GL11;
+
+public class Button {
+	private int x,y;
+	private Icon[] icon = new Icon[4];
+	private
+	public Button(int x, int y, Icon off, Icon offActive, Icon on, Icon onActive, ButtonAction call){
+		
+	}
+	public void render(){
+		GL11.glPushMatrix();
+		GL11.glTranslated(x, y, 0);
+		GL11.glPopMatrix();
+	}
+}

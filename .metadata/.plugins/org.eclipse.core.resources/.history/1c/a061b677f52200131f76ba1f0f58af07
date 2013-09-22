@@ -1,0 +1,13 @@
+package modmaker.gui;
+
+public class Quad {
+	private Icon icon;
+	private int x,y,hight,width;
+	public Quad(Icon icon, int x, int y){
+		this.icon = icon;
+		this.x = x;
+		this.y = y;
+		this.hight = icon.getTexture().getImageHeight();
+		this.width = icon.getTexture().getImageWidth();
+	}
+}

@@ -1,0 +1,11 @@
+package modmaker.gui;
+
+import javax.swing.JFrame;
+
+public class DialogExportingGui {
+	public JFrame frame;
+	public boolean isFrameOpen;
+	public void popUpFrame(String title){
+		
+	}
+}

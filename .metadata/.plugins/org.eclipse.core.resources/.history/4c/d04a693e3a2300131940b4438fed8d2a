@@ -1,0 +1,64 @@
+package modmaker.gui;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class GuiExport {
+	public Frame getFrame(){
+		JFrame frame = new JFrame("Mod Maker");
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JPanel panelLeft = new JPanel();
+		JPanel panelRight = new JPanel();
+		JButton newButton = new JButton("New");
+		panelLeft.add(newButton);
+		newButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("New");
+			}
+
+		});
+		JButton openButton = new JButton("Open");
+		panelLeft.add(openButton);
+		openButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Opened");
+			}
+
+		});
+		JButton exportButton = new JButton("Export");
+		panelRight.add(exportButton);
+		exportButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		exportButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Exported");
+			}
+
+		});
+
+
+		frame.add(panelLeft, BorderLayout.WEST);
+		frame.add(panelRight, BorderLayout.EAST);
+
+		//4. Size the frame.
+		frame.pack();
+
+		//5. Show it.
+		frame.setVisible(true);
+		return frame;
+	}
+}
