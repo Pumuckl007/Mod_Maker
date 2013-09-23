@@ -1,0 +1,21 @@
+package modmaker.gui;
+
+import modmaker.Item;
+import modmaker.Start;
+
+public class DialogEditItem {
+	public DialogEditItem(int itemIndex){
+		Item item = Start.main.items.get(itemIndex);
+		item = this.openGui(item);
+		Start.main.items.set(itemIndex, item);
+		for(int i = 0; i < 5; i++){
+			String[] string = item.getItemForTable();
+			string[0] = "test";
+				Start.gui.items.removeRow(itemIndex);
+				Start.gui.items.insertRow(itemIndex, string);
+		}
+	}
+	public Item openGui(Item item){
+		return item;
+	}
+}

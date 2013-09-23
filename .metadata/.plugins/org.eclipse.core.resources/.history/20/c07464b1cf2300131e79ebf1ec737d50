@@ -1,0 +1,22 @@
+package modmaker.gui;
+
+import javax.swing.table.DefaultTableModel;
+
+public class ItemTableModle extends DefaultTableModel {
+
+	private static final long serialVersionUID = -2782223919757645080L;
+	public boolean isCellEditable(int row, int column){ 
+		if(this.getValueAt(row, column) instanceof String)
+			return (this.getValueAt(row, column).equals("Edit") ||this.getValueAt(row, column).equals("Delet"));
+		else
+			return true;
+    }
+	@Override
+	public void moveRow(int start, int end, int to) {
+		// TODO Auto-generated method stub
+//		super.moveRow(start, end, to);
+	}
+	
+
+
+}

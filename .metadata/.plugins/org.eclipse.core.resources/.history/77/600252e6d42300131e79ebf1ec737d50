@@ -1,0 +1,9 @@
+package modmaker.gui;
+
+import modmaker.Item;
+
+public class DialogEditItem {
+	public DialogEditItem(Item item){
+		System.out.println("Editing");
+	}
+}

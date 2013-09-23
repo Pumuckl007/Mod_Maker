@@ -23,7 +23,6 @@ public class DialogModInfoGui {
 			frame = new JFrame(title);
 			frame.setLayout(layout);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			frame.setLocation(100, 100);
 
 			JToolBar modName = this.generateTextBarWithLable("", "Mod Name:", 20);
 			frame.add(modName);
@@ -56,6 +55,7 @@ public class DialogModInfoGui {
 			Gui.stardardLookAndFeel(frame);
 
 			frame.setSize(500, 375);
+			frame.setLocationRelativeTo(null);
 			//5. Show it.
 			frame.setVisible(true);
 		}
