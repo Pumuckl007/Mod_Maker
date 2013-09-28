@@ -54,8 +54,6 @@ public class ButtonEditor extends DefaultCellEditor {
 
 	public Object getCellEditorValue() {
 		if (isPushed) {
-			// 
-			// 
 			if(this.label.equals("Delete")){
 				if(Start.gui.items.getRowCount() >= this.row){
 					Start.main.items.remove(this.row);
@@ -65,7 +63,6 @@ public class ButtonEditor extends DefaultCellEditor {
 			else{
 				new DialogEditItem().openGui(row);;
 			}
-			// System.out.println(label + ": Ouch!");
 		}
 		isPushed = false;
 		return new String(label);
@@ -77,7 +74,9 @@ public class ButtonEditor extends DefaultCellEditor {
 	}
 
 	protected void fireEditingStopped() {
+		try{
 		super.fireEditingStopped();
+		}catch(Exception e){if(e instanceof java.lang.IndexOutOfBoundsException){}else{ e.printStackTrace();}}
 	}
 }
 

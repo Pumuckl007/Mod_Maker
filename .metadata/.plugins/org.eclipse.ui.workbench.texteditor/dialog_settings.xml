@@ -13,12 +13,26 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="ModMakerUI" key="selection"/>
+		<item value="RecipyButton()" key="selection"/>
 		<list key="findhistory">
-			<item value="GameUIDemo"/>
+			<item value="@Override"/>
+			<item value="JButton(&quot;&quot;)"/>
+			<item value="JButton"/>
+			<item value="getContentPlane"/>
+			<item value="this"/>
+			<item value="recipySlot5"/>
+			<item value="recipySlot1"/>
+			<item value="recipySlot2"/>
 		</list>
 		<list key="replacehistory">
-			<item value="ModMakerUI"/>
+			<item value="RecipyButton()"/>
+			<item value="RecipyButton"/>
+			<item value=""/>
+			<item value="panel"/>
+			<item value="recipySlot6"/>
+			<item value="recipySlot7"/>
+			<item value="recipySlot8"/>
+			<item value="recipySlot9"/>
 		</list>
 	</section>
 </section>

@@ -1,0 +1,30 @@
+package modmaker;
+
+import java.util.Collections;
+import java.util.Comparator;
+
+public class Main {
+	public ArrayListSortItem<Item> items = new ArrayListSortItem<Item>();
+	public Mod mod;
+	public Main(){
+		items.add(new Item("first"));
+		items.add(new Item("add"));
+		items.add(new Item("Tea"));
+		items.add(new Item("teat"));
+		items.add(new Item("wont"));
+		mod = new Mod();
+		Collections.sort(items, new itemSort());
+	}
+	private class itemSort implements Comparator <Item> {
+
+	    @Override
+	    public int compare(Item o1, Item o2) {
+	        if(o1.getName() != null && o2.getName() != null){
+	            return o1.getName().compareToIgnoreCase(o2.getName());
+	        }
+
+	        return 0;
+	    }
+
+	}
+}

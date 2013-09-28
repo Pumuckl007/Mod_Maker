@@ -1,0 +1,22 @@
+package modmaker;
+
+import java.util.Comparator;
+
+public class ItemSort implements Comparator <T> {
+
+	@Override
+	public int compare(T o1, T o2) {
+		return 0;
+	}
+
+//	    @Override
+//	    public int compare(T o1, T o2) {
+//	    	
+//	        if(((Item)o1).getName() != null && ((Item)o2).getName() != null){
+//	            return ((Item)o1).getName().compareToIgnoreCase(((Item)o2).getName());
+//	        }
+//
+//	        return 0;
+//	    }
+
+	}

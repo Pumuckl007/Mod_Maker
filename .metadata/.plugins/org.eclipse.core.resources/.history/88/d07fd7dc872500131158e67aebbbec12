@@ -1,0 +1,14 @@
+package modmaker;
+
+import java.util.ArrayList;
+
+public class Item {
+	public ArrayList<Recipy> recipies = new ArrayList<Recipy>();
+	private String name;
+	public Item(String name){
+		this.recipies.add(new Recipy());
+	}
+	public String[] getItemForTable(){
+		return new String[]{"Item", name, "12345", "Edit", "Delete"};
+	}
+}

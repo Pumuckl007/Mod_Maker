@@ -9,3 +9,6 @@
 1379881786927	Rename local variable 'spicificMenuBar'
 1379899337148	Delete element
 1379901493369	Rename field 'lable'
+1380074823824	Infer generic type arguments
+1380159482598	Rename field 'icon'
+1380250440147	Rename type 'itemSort'

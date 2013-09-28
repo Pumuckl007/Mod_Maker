@@ -12,12 +12,16 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
+import modmaker.Item;
+
 public class IconButtonActionListiner implements ActionListener{
 	private JButton icon;
 	private Container parent;
-	public IconButtonActionListiner(JButton icon, Container parent){
+	private Item item;
+	public IconButtonActionListiner(JButton icon, Container parent, Item item){
 		this.icon = icon;
 		this.parent = parent;
+		this.item = item;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -39,12 +43,14 @@ public class IconButtonActionListiner implements ActionListener{
 			int state = fc.showOpenDialog(this.parent);
 			if(state == JFileChooser.APPROVE_OPTION){
 				ImageIcon imageicon = null;
+				File selectedFile = fc.getSelectedFile();
 				try {
-					imageicon = new ImageIcon(fc.getSelectedFile().toURI().toURL());
+					imageicon = new ImageIcon(selectedFile.toURI().toURL());
 					imageicon = new ImageIcon(imageicon.getImage().getScaledInstance((int)122, (int)122, Image.SCALE_DEFAULT));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				this.item.setImage(selectedFile);
 				this.icon.setIcon(imageicon);
 			}
 		} catch (Exception e1) {

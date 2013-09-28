@@ -1,0 +1,16 @@
+package modmaker.gui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class EventNewRecipyLisiner implements ActionListener {
+	private EditItem editItem;
+	public EventNewRecipyLisiner(EditItem editItem){
+		this.editItem = editItem;
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		new DialogNewRecipy().openGui(null, 0, this.editItem);
+	}
+
+}

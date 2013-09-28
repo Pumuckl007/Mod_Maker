@@ -1,0 +1,16 @@
+package modmaker.gui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class EventNewRecipyLisiner implements ActionListener {
+	private NewRecipy newRecipy;
+	public EventNewRecipyLisiner(NewRecipy newRecipy){
+		this.newRecipy = newRecipy;
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		
+	}
+
+}

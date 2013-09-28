@@ -4,8 +4,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,10 +16,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpringLayout;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
-import modmaker.Item;
+import org.jdesktop.swingx.JXTable;
+
 import modmaker.Recipy;
-import modmaker.Start;
 
 public class EditItem extends JDialog implements ActionListener {
 	/**
@@ -41,6 +41,36 @@ public class EditItem extends JDialog implements ActionListener {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setVisible(true);
 	}
+	private class NameCaretListener implements CaretListener{
+		private EditItem editItem;
+		public NameCaretListener(EditItem editItem){
+			this.editItem = editItem;
+		}
+		@Override
+		public void caretUpdate(CaretEvent e) {
+			this.editItem.editItem.item.setName(((JTextField)e.getSource()).getText());
+		}
+		
+	}
+	private class IDCaretListener implements CaretListener{
+		private EditItem editItem;
+		public IDCaretListener(EditItem editItem){
+			this.editItem = editItem;
+		}
+		@Override
+		public void caretUpdate(CaretEvent e) {
+			boolean candoIt = true;
+			try{
+				new Integer(((JTextField)e.getSource()).getText());
+			}
+			catch(Exception ex){
+				candoIt = false;
+			}
+			if(candoIt)
+			this.editItem.editItem.item.setId(new Integer(((JTextField)e.getSource()).getText()));
+		}
+		
+	}
 	private void addGui(){
 		SpringLayout layout = new SpringLayout();
 		this.setLayout(layout);
@@ -49,30 +79,27 @@ public class EditItem extends JDialog implements ActionListener {
 		this.add(done);
 		layout.putConstraint(SpringLayout.SOUTH, done,-20,SpringLayout.SOUTH, this.getContentPane());
 		layout.putConstraint(SpringLayout.EAST, done,-20,SpringLayout.EAST, this.getContentPane());
-		JToolBar name = this.generateTextBarWithLable("", "Name:", 20);
-		JToolBar iD = this.generateTextBarWithLable("", "ID:", 20);
+		JToolBar name = this.generateTextBarWithLable(new NameCaretListener(this),this.editItem.item.getName(), "Name:", 20);
+		JToolBar iD = this.generateTextBarWithLable(new IDCaretListener(this), this.editItem.item.getId().toString(), "ID:", 20);
 		this.add(name);
 		this.add(iD);
 		layout.putConstraint(SpringLayout.NORTH, iD,20,SpringLayout.SOUTH, name);
 		ImageIcon imageicon = null;
-			try {
-				imageicon = new ImageIcon(new File("resources/textures/Tea-Bag.JPEG").toURI().toURL());
-				imageicon = new ImageIcon(imageicon.getImage().getScaledInstance((int)122, (int)122, Image.SCALE_DEFAULT));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		imageicon = new ImageIcon(this.editItem.item.getImage());
+		imageicon = new ImageIcon(imageicon.getImage().getScaledInstance((int)122, (int)122, Image.SCALE_DEFAULT));
 		icon = new JButton(imageicon);
-		icon.addActionListener(new IconButtonActionListiner(icon, getParent()));
+		icon.addActionListener(new IconButtonActionListiner(icon, getParent(), this.editItem.item));
 		this.add(icon);
 		layout.putConstraint(SpringLayout.SOUTH, icon,-20,SpringLayout.SOUTH, this.getContentPane());
 		layout.putConstraint(SpringLayout.WEST, icon,20,SpringLayout.WEST, this.getContentPane());
 		layout.putConstraint(SpringLayout.NORTH, icon,-148,SpringLayout.SOUTH, this.getContentPane());
 		layout.putConstraint(SpringLayout.EAST, icon,148,SpringLayout.WEST, this.getContentPane());
 		JButton newRecipy = new JButton("Add New Recipy");
+		newRecipy.addActionListener(new EventNewRecipyLisiner(this, this.editItem.item));
 		this.add(newRecipy);
 		layout.putConstraint(SpringLayout.EAST, newRecipy,-20,SpringLayout.EAST, this.getContentPane());
 		layout.putConstraint(SpringLayout.NORTH, newRecipy,20,SpringLayout.NORTH, this.getContentPane());
-		this.recipies = new ItemTableModle();
+		this.recipies = new ItemTableModle(this.editItem.item);
 		JScrollPane recipytable = this.drawTable(recipies);
 		this.add(recipytable);
 		layout.putConstraint(SpringLayout.NORTH, recipytable,20,SpringLayout.SOUTH, newRecipy);
@@ -88,10 +115,10 @@ public class EditItem extends JDialog implements ActionListener {
 			i++;
 		}
 		recipies.setDataVector(stringItems, new Object[] { "Type", "Data", "Remove"});
-		JTable modStuffTable = new JTable(recipies);
+		JXTable modStuffTable = new JXTable(recipies);
 		modStuffTable.getColumn("Remove").setCellRenderer(new ButtonRenderer());
 		modStuffTable.getColumn("Remove").setCellEditor(
-	        new ButtonEditor(new JCheckBox()));
+				new RemoveButton(new JCheckBox()));
 		JScrollPane modStuff = new JScrollPane(modStuffTable);
 		return modStuff;
 	}
@@ -100,12 +127,13 @@ public class EditItem extends JDialog implements ActionListener {
 		setVisible(false); 
 		dispose(); 
 	}
-	public JToolBar generateTextBarWithLable(String textInBox, String lable, int lenght){
+	public JToolBar generateTextBarWithLable(CaretListener listener, String textInBox, String lable, int lenght){
 		JToolBar textBar = new JToolBar();
 		textBar.setFloatable(false);
 		JLabel jLable = new JLabel(lable);
 		textBar.add(jLable);
 		JTextField textFeild = new JTextField(textInBox, lenght);
+		textFeild.addCaretListener(listener);
 		textBar.add(textFeild);
 		return textBar;
 	}

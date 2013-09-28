@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/slick-util.jar" sourcepath="/home/max/src/ModMaker/lib/slick-util-src.zip"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/lzma.jar"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/lwjgl_util_applet.jar"/>
@@ -20,5 +19,7 @@
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/ibxm.jar"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/asm-debug-all.jar"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/AppleJavaExtensions.jar"/>
+	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/swingx-all-1.6.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
