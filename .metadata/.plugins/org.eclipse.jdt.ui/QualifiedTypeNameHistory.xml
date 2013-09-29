@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.Display"/>
-<fullyQualifiedTypeName name="javax.swing.JMenuItem"/>
-<fullyQualifiedTypeName name="javax.swing.BoxLayout"/>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-<fullyQualifiedTypeName name="java.awt.Frame"/>
 <fullyQualifiedTypeName name="javax.swing.JFileChooser"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="javax.swing.JToolBar"/>
@@ -22,15 +17,12 @@
 <fullyQualifiedTypeName name="java.awt.Image"/>
 <fullyQualifiedTypeName name="javax.swing.filechooser.FileFilter"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
-<fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="javax.swing.SwingUtilities"/>
 <fullyQualifiedTypeName name="javax.swing.UIManager"/>
 <fullyQualifiedTypeName name="modmaker.Recipy"/>
 <fullyQualifiedTypeName name="javax.swing.JList"/>
-<fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="modmaker.Item"/>
-<fullyQualifiedTypeName name="modmaker.Start"/>
 <fullyQualifiedTypeName name="java.awt.dnd.DragSource"/>
 <fullyQualifiedTypeName name="java.awt.dnd.DnDConstants"/>
 <fullyQualifiedTypeName name="java.awt.dnd.DragSourceListener"/>
@@ -45,7 +37,6 @@
 <fullyQualifiedTypeName name="java.util.Comparator"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
 <fullyQualifiedTypeName name="javax.swing.event.CaretListener"/>
-<fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="modmaker.ArrayListSortItem.itemSort"/>
 <fullyQualifiedTypeName name="modmaker.ArrayListSortItem.ItemSort"/>
 <fullyQualifiedTypeName name="modmaker.ArrayListSortItem"/>
@@ -60,4 +51,13 @@
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="java.nio.channels.Channels"/>
+<fullyQualifiedTypeName name="java.nio.channels.ReadableByteChannel"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="modmaker.Start"/>
+<fullyQualifiedTypeName name="modmaker.Mod"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="javax.swing.JProgressBar"/>
+<fullyQualifiedTypeName name="modmaker.init.InitFiles"/>
 </qualifiedTypeNameHistroy>

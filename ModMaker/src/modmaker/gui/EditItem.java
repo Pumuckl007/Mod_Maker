@@ -12,16 +12,15 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpringLayout;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import org.jdesktop.swingx.JXTable;
-
 import modmaker.Recipy;
+
+import org.jdesktop.swingx.JXTable;
 
 public class EditItem extends JDialog implements ActionListener {
 	/**

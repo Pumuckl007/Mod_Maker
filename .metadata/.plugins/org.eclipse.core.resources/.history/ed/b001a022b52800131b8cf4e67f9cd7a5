@@ -1,0 +1,48 @@
+package modmaker.gui;
+
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.SpringLayout;
+
+public class About extends JDialog implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2355705990442516212L;
+	private DialogAbout dialog;
+	public About(JFrame parent, String title, DialogAbout dialog) {
+		super(parent, title, true);
+		this.dialog = dialog;
+		Point p = parent.getLocation(); 
+		setLocation(p.x,p.y);
+		this.setSize(parent.getSize());
+		this.addGui();
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setVisible(true);
+	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		System.out.println("Actulay Calls this");
+	}
+
+	private void addGui(){
+		SpringLayout layout = new SpringLayout();
+		this.setLayout(layout);
+		JButton done = new JButton("Back");
+		done.addActionListener(this);
+		this.add(done);
+		layout.putConstraint(SpringLayout.SOUTH, done,-20,SpringLayout.SOUTH, this.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, done,-20,SpringLayout.EAST, this.getContentPane());
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.dialog.done;
+	}
+}

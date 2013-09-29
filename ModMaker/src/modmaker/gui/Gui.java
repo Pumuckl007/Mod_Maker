@@ -203,5 +203,15 @@ Display.destroy();
 					Start.gui.exporting.popUpFrame(fc.getSelectedFile().toString());
 			}
 		});
+		JButton aboutButton = new JButton("About");
+		toolBar.add(aboutButton);
+		aboutButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		aboutButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new DialogAbout().openGui();
+			}
+		});
 	}
 }

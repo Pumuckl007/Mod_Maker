@@ -1,0 +1,21 @@
+package modmaker.gui;
+
+import java.util.Collections;
+
+import modmaker.Item;
+import modmaker.ItemSort;
+import modmaker.Start;
+
+public class DialogAbout {
+	public boolean done;
+	public DialogAbout(){
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void openGui(int itemIndex){
+		done = false;
+		new About(Start.gui.frame, "About ModMaker", this);
+		while(!done){
+			
+		}
+	}
+}

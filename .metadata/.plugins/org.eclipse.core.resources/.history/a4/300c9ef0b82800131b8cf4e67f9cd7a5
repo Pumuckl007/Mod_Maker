@@ -1,0 +1,53 @@
+package modmaker.gui;
+
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.SpringLayout;
+
+public class About extends JDialog implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2355705990442516212L;
+	private DialogAbout dialog;
+	public About(JFrame parent, String title, DialogAbout dialog) {
+		super(parent, title, true);
+		this.dialog = dialog;
+		Point p = parent.getLocation(); 
+		setLocation(p.x,p.y);
+		this.setSize(parent.getSize());
+		this.addGui();
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setVisible(true);
+	}
+	
+	private void addGui(){
+		SpringLayout layout = new SpringLayout();
+		this.setLayout(layout);
+		JButton back = new JButton("Back");
+		back.addActionListener(this);
+		this.add(back);
+		layout.putConstraint(SpringLayout.SOUTH, back,-20,SpringLayout.SOUTH, this.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, back,-20,SpringLayout.EAST, this.getContentPane());
+		JTextArea field = new JTextArea();
+		field.setText("About Mod Maker");
+		field.setFocusable(false);
+		this.add(field);
+		layout.putConstraint(SpringLayout.NORTH, back,20,SpringLayout.NORTH, this.getContentPane());
+		layout.putConstraint(SpringLayout.EAST, back,-20,SpringLayout.EAST, this.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, back,-20,SpringLayout.NORTH, back);
+		layout.putConstraint(SpringLayout.WEST, back,20,SpringLayout.WEST, this.getContentPane());
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.dialog.done = true;
+		this.setVisible(false);
+		this.dispose();
+	}
+}

@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
-import javax.swing.SwingUtilities;
 
 import modmaker.Start;
 
