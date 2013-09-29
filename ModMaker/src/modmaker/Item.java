@@ -10,6 +10,7 @@ public class Item {
 	private String name;
 	private File image;
 	private Integer id = 12345;
+	private Integer metadat = 0;
 	public Item(String name){
 		this.name = name;
 		this.recipies.add(new Recipy());
@@ -29,6 +30,12 @@ public class Item {
 	}
 	public void setName(String name){
 		this.name = name;
+	}
+	public Integer getMetadat() {
+		return metadat;
+	}
+	public void setMetadat(int metadat) {
+		this.metadat = metadat;
 	}
 	public void setImage(File file){
 		this.image = file;

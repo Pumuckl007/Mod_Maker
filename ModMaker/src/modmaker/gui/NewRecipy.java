@@ -184,6 +184,7 @@ public class NewRecipy extends JDialog implements ActionListener, DragSourceList
 		public void actionPerformed(ActionEvent e) {
 			this.button.setIcon(null);
 			this.button.setItem(null);
+			this.button.setToolTipText(null);
 		}
 		
 	}
@@ -216,8 +217,11 @@ public class NewRecipy extends JDialog implements ActionListener, DragSourceList
 		public void drop(DropTargetDropEvent dtde) {
 			try {
 				ImageIcon icon = new ImageIcon(Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getImage());
-				(this.button).setIcon(new ImageIcon(icon.getImage().getScaledInstance((int)58, (int)58, Image.SCALE_DEFAULT)));
+				this.button.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int)58, (int)58, Image.SCALE_DEFAULT)));
 				this.button.setItem(Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName());
+				this.button.setToolTipText(Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName() + " (" +
+						Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getId().toString() + ":" + 
+						Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getMetadat().toString() + ")");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

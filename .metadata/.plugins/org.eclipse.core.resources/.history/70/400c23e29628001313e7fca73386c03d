@@ -1,0 +1,12 @@
+package modmaker.init;
+
+import javax.swing.JFrame;
+
+
+public class InitFiles extends JFrame implements Runnable {
+
+	@Override
+	public void run() {
+
+	}
+}

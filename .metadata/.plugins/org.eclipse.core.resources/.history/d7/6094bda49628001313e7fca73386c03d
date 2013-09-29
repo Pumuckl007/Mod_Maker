@@ -1,0 +1,11 @@
+package modmaker.init;
+
+
+public class InitFiles implements Runnable {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+
+	}
+}
