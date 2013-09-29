@@ -1,7 +1,0 @@
-package modmaker.gui;
-
-public class Button {
-	public Button(int x, int y, Icon icon, ButtonAction call){
-		
-	}
-}
