@@ -144,7 +144,7 @@ public class Mod {
 				extracted = false;
 			}
 			init.setProgress(900, "Downloading ItemRefences");
-			String idUrl = "https://raw.github.com/Pumuckl007/Mod_Maker/master/downloadables/Items.txt";
+			String idUrl = "https://dl.dropboxusercontent.com/s/0n7rmvzgiebi25x/Items.txt?token_hash=AAGEi4TXYeOikhZGl2IYbx1mbGaG4HZez9tyTiSOMFdvUA&dl=1";
 			try {
 				URL website = new URL(idUrl);
 				ReadableByteChannel rbc = Channels.newChannel(website.openStream());

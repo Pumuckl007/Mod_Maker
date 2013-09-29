@@ -144,7 +144,7 @@ public class Mod {
 				extracted = false;
 			}
 			init.setProgress(900, "Downloading ItemRefences");
-			String idUrl = "https://raw.github.com/Pumuckl007/Mod_Maker/master/downloadables/Items.txt";
+			String idUrl = "https://dl.dropboxusercontent.com/s/0n7rmvzgiebi25x/Items.txt?token_hash=AAGEi4TXYeOikhZGl2IYbx1mbGaG4HZez9tyTiSOMFdvUA&dl=1";
 			try {
 				URL website = new URL(idUrl);
 				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -155,7 +155,7 @@ public class Mod {
 				e.printStackTrace();
 			}
 			init.setProgress(920, "Downloading SwingX Licence");
-			String swingxLicens = "https://raw.github.com/Pumuckl007/Mod_Maker/master/SwingX_lisence.txt";
+			String swingxLicens = "https://raw.github.com/Zypr/Zypr-Reference-Client---Java/master/libraries/swingx-core-1.6.2-LICENSE.txt";
 			try {
 				URL website = new URL(swingxLicens);
 				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -197,7 +197,7 @@ public class Mod {
 				e.printStackTrace();
 			}
 			init.setProgress(950, "Downloading SlickUtil Licence");
-			String slickUtillicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/SlickUtil_lisence.txt";
+			String slickUtillicence = "https://dl.dropboxusercontent.com/s/fnnl2w2935qmp1j/SlickUtil_lisence.txt?token_hash=AAH-vKNsRv6fTeRM6lI1zZEZcg87OutOQ7CzbTK702BVQQ&dl=1";
 			try {
 				URL website = new URL(slickUtillicence);
 				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -208,7 +208,7 @@ public class Mod {
 				e.printStackTrace();
 			}
 			init.setProgress(960, "Downloading ModMaker Licence");
-			String modMakerLicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/LICENCE.txt";
+			String modMakerLicence = "https://dl.dropboxusercontent.com/s/49lkddvvy9mquh5/ModMaker_licence.txt?token_hash=AAExQvY5gJnlk9JAVEZaXkw5kdquXVx6hU6ZQUt19UL-RQ&dl=1";
 			try {
 				URL website = new URL(modMakerLicence);
 				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
