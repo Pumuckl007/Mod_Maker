@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 
 import modmaker.Item;
 import modmaker.Start;
+import modmaker.export.Export;
 
 import org.jdesktop.swingx.JXTable;
 
@@ -25,7 +26,6 @@ public class Gui {
 	public JFrame frame;
 	public boolean buttonPushed;
 	public DialogModInfoGui modInfo = new DialogModInfoGui();
-	public DialogExportingGui exporting = new DialogExportingGui();
 	public ItemTableModle items;
 	public Gui(){
 		SpringLayout layout = new SpringLayout();
@@ -63,9 +63,9 @@ public class Gui {
 		addItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Item item = new Item("Null");
+				Item item = new Item("Undifind");
 				Start.gui.items.addRow(item.getItemForTable());
-				Start.main.items.add(item);
+				Start.main.mod.items.add(item);
 			}
 
 		});
@@ -83,9 +83,9 @@ public class Gui {
 		layout.putConstraint(SpringLayout.WEST, sliderAndButtons,0,SpringLayout.WEST, frame.getContentPane());
 		
 		items = new ItemTableModle();
-		Object[][] stringItems = new Object[Start.main.items.size()][5];
+		Object[][] stringItems = new Object[Start.main.mod.items.size()][5];
 		int i = 0;
-		for(Item item : Start.main.items){
+		for(Item item : Start.main.mod.items){
 			stringItems[i] = item.getItemForTable();
 			i++;
 		}
@@ -199,8 +199,9 @@ Display.destroy();
 				JFileChooser fc = new JFileChooser();
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int returnval = fc.showDialog(Start.gui.frame, "Export");
-				if(returnval == JFileChooser.APPROVE_OPTION && fc.getSelectedFile() != null)
-					Start.gui.exporting.popUpFrame(fc.getSelectedFile().toString());
+				if(returnval == JFileChooser.APPROVE_OPTION && fc.getSelectedFile() != null){
+					new Export().export(Start.main.mod, fc.getSelectedFile());
+				}
 			}
 		});
 		JButton aboutButton = new JButton("About");

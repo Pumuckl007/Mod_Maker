@@ -1,7 +1,0 @@
-package modmaker;
-
-public class Recipy {
-	public String[] getStringForTable(){
-		return new String[]{"Shaped","Wood,Wood,Wood\nBlank,Stick,Blank\n,Blank,Stick,Blank", "Remove"};
-	}
-}

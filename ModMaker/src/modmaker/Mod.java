@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -21,6 +22,7 @@ import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
 
+import modmaker.export.FileUtils;
 import modmaker.gui.InitFiles;
 
 public class Mod {
@@ -29,7 +31,18 @@ public class Mod {
 	private ZipFile minecraftJar;
 	private Enumeration<? extends ZipEntry> entries;
 	private String minecraftVerstion = "1.6.4";
-	public Mod(){
+	public static final String minecraftForgeLocation = "http://files.minecraftforge.net/minecraftforge/minecraftforge-src-1.6.4-9.11.1.916.zip";
+	public static final String mCPlocation = "http://download1307.mediafire.com/v1xnkih5zdag/96mrmeo57cdf6zv/mcp811.zip";
+	public ArrayListSortItem<Item> items = new ArrayListSortItem<Item>();
+	public String name;
+	public String info;
+	public String by;
+	public boolean exportSource;
+	public Mod(String name, String info, String by, boolean exportSource){
+		this.name = name;
+		this.info = info;
+		this.by = by;
+		this.exportSource = exportSource;
 		File minecraft = new File(System.getProperty("user.home") + "/.minecraft/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
 		File blocks = new File(System.getProperty("user.home") + "/.modmaker/blocks/");
 		blocks.mkdirs();
@@ -76,7 +89,7 @@ public class Mod {
 	//	}
 	//	System.out.println(builder.toString());
 	private void initfiles(File blocks, File items){
-		File minecraftVerstionFile = new File(System.getProperty("user.home") + "/.modmaker/minecraftV" + this.minecraftVerstion + "/");
+		File minecraftVerstionFile = new File(System.getProperty("user.home") + "/.modmaker/minecraftV" + this.minecraftVerstion + ((Boolean)Main.hasMcpPremistion).toString() + "/");
 		if(!minecraftVerstionFile.exists()){
 			InitFiles init = new InitFiles();
 			Thread thread = new Thread(init);
@@ -88,12 +101,15 @@ public class Mod {
 			for(File file : items.listFiles()){
 				file.delete();
 			}
+			File minecraftForgeFile = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/");
+			for(File file : minecraftForgeFile.listFiles()){
+				file.delete();
+			}
 			init.setProgress(50, "Extracting Files");
 			blocks.mkdir();
 			items.mkdir();
-			minecraftVerstionFile.mkdirs();
 			for(File file : new File(System.getProperty("user.home") + "/.modmaker/").listFiles()){
-				if(file.getName().contains("minecraftV") && !file.getName().contains("minecraftV" + this.minecraftVerstion)){
+				if(file.getName().contains("minecraftV")){
 					file.delete();
 				}
 			}
@@ -136,14 +152,14 @@ public class Mod {
 					extracted = true;
 				}
 				if(extracted){
-					init.setProgress(50 +(int)(i*1.6), "Extracting File: " + zipEntry.getName());
+					init.setProgress(50 +(int)(i*0.5), "Extracting File: " + zipEntry.getName());
 					i++;
 				}
 				else
-					init.setProgress(50 + (int)(i*1.6), "Extracting Files");
+					init.setProgress(50 + (int)(i*0.5), "Extracting Files");
 				extracted = false;
 			}
-			init.setProgress(900, "Downloading ItemRefences");
+			init.setProgress(400, "Downloading ItemRefences");
 			String idUrl = "https://raw.github.com/Pumuckl007/Mod_Maker/master/downloadables/Items.txt";
 			try {
 				URL website = new URL(idUrl);
@@ -154,7 +170,7 @@ public class Mod {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-			init.setProgress(920, "Downloading SwingX Licence");
+			init.setProgress(410, "Downloading SwingX Licence");
 			String swingxLicens = "https://raw.github.com/Pumuckl007/Mod_Maker/master/SwingX_lisence.txt";
 			try {
 				URL website = new URL(swingxLicens);
@@ -165,7 +181,7 @@ public class Mod {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-			init.setProgress(940, "Copying LWJGL Licence");
+			init.setProgress(420, "Copying LWJGL Licence");
 			String lwjglLicence = "Copyright (c) 2002-2007 Lightweight Java Game Library Project"
 					+ "\nAll rights reserved."
 					+ "\nRedistribution and use in source and binary forms, with or without"
@@ -196,7 +212,7 @@ public class Mod {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			init.setProgress(950, "Downloading SlickUtil Licence");
+			init.setProgress(425, "Downloading SlickUtil Licence");
 			String slickUtillicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/SlickUtil_lisence.txt";
 			try {
 				URL website = new URL(slickUtillicence);
@@ -207,7 +223,7 @@ public class Mod {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-			init.setProgress(960, "Downloading ModMaker Licence");
+			init.setProgress(435, "Downloading ModMaker Licence");
 			String modMakerLicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/LICENCE.txt";
 			try {
 				URL website = new URL(modMakerLicence);
@@ -218,9 +234,169 @@ public class Mod {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
+			FileUtils.removeDirectory(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/"));
+			init.setProgress(440, "Downloading Minecraft Forge");
+			try {
+				File location = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/");
+				location.mkdir();
+				URL website = new URL(minecraftForgeLocation);
+				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+				FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/MinecraftForge/minecraftForge.zip");
+				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+				fos.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			init.setProgress(480, "Extracting Minecraft Forge");
+			ZipFile minecraftForge = null;
+			try {
+				minecraftForge = new ZipFile(System.getProperty("user.home") + "/.modmaker/MinecraftForge/minecraftForge.zip");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Enumeration<? extends ZipEntry> mFEntries = minecraftForge.entries();
+			i = 0;
+			extracted = false;
+			while(mFEntries.hasMoreElements()){
+				ZipEntry zipEntry = mFEntries.nextElement();
+				init.setProgress(480 +(int)(i*0.2), "Extracting File: " + zipEntry.getName() + " (" + ((Long)zipEntry.getSize()).toString() + ")");
+				i++;
+				try {
+					if(zipEntry.getSize() > 0){
+						File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+						file.mkdirs();
+						BufferedInputStream zipedFile = new BufferedInputStream(minecraftForge.getInputStream(zipEntry));
+						FileOutputStream outStream = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName());
+						byte[] buffer = new byte[(int)zipEntry.getSize()];
+						int len;
+						while ((len = zipedFile.read(buffer)) != -1) {
+							outStream.write(buffer, 0, len);
+						}
+						zipedFile.close();
+						outStream.close();
+					}
+					else{
+						File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+						File file2 = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName());
+						file.mkdirs();
+						file2.createNewFile();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(Main.hasMcpPremistion){
+				FileUtils.removeDirectory(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/"));
+				init.setProgress(770, "Installing MCP/Forge (This May Take A While)");
+				Process runtime = null;
+				try {
+					if(System.getProperty("os.name").contains("Windows")){
+						runtime = Runtime.getRuntime().exec(System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\fml\\python\\python_fml " +  System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\fml\\install.py", null, new File(System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\"));
+					}
+					else{
+						runtime = Runtime.getRuntime().exec("python " + System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/fml/install.py", null, new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/"));
+					}
+					String line;
+					BufferedReader stdInput = new BufferedReader(new InputStreamReader(runtime.getInputStream()));
+
+					BufferedReader stdError = new BufferedReader(new InputStreamReader(runtime.getErrorStream()));
+					int j = 0;
+//					 read the output from the command
+					while ((line = stdInput.readLine()) != null) {
+						System.out.println(line);
+						init.setProgress(770 + j/30, line + " (This may take a while)");
+						j++;
+					}
+
+					// read any errors from the attempted command
+					while ((line = stdError.readLine()) != null) {
+						System.out.println(line);
+						init.setProgress(770 + j/30, line + " (This may take a while)");
+						j++;
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.exit(-1);
+				}
+			}
 			init.setProgress(1000, "Finishing");
 			init.done = true;
 			init.dispose();
+			minecraftVerstionFile.mkdirs();
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	init.setProgress(740, "Downloading MCP");
+//	try {
+//		File location = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/");
+//		location.mkdir();
+//		URL website = new URL(mCPlocation);
+//		ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+//		FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp.zip");
+//		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+//		fos.close();
+//	}catch (Exception e) {
+//		e.printStackTrace();
+//	}
+//	init.setProgress(755, "Exrtcating MCP");
+//	ZipFile mCP = null;
+//	try {
+//		mCP = new ZipFile(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp.zip");
+//	} catch (IOException e) {
+//		e.printStackTrace();
+//	}
+//	Enumeration<? extends ZipEntry> mCPEntries = mCP.entries();
+//	i = 0;
+//	extracted = false;
+//	while(mCPEntries.hasMoreElements()){
+//		ZipEntry zipEntry = mCPEntries.nextElement();
+//		init.setProgress(480 +(int)(i*0.2), "Extracting File: " + zipEntry.getName() + " (" + ((Long)zipEntry.getSize()).toString() + ")");
+//		i++;
+//		try {
+//			if(zipEntry.getSize() > 0){
+//				File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+//				file.mkdirs();
+//				BufferedInputStream zipedFile = new BufferedInputStream(minecraftForge.getInputStream(zipEntry));
+//				FileOutputStream outStream = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName());
+//				byte[] buffer = new byte[(int)zipEntry.getSize()];
+//				int len;
+//				while ((len = zipedFile.read(buffer)) != -1) {
+//					outStream.write(buffer, 0, len);
+//				}
+//				outStream.close();
+//				zipedFile.close();
+//			}
+//			else{
+//				File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+//				File file2 = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName());
+//				file.mkdirs();
+//				file2.createNewFile();
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

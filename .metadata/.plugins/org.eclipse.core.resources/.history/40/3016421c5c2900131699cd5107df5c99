@@ -1,0 +1,16 @@
+package modmaker.export;
+
+import java.io.File;
+
+public class FileUtils {
+	public static void removeDirectory(File directory){
+		for(File file : directory){
+			if(file.isDirectory()){
+				FileUtils.removeDirectory(file);
+			}
+			else{
+				file.delete();
+			}
+		}
+	}
+}

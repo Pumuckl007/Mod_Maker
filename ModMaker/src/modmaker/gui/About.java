@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 
+import modmaker.Main;
+
 public class About extends JDialog implements ActionListener {
 	/**
 	 * 
@@ -53,9 +55,24 @@ public class About extends JDialog implements ActionListener {
 	}
 	private String getText(){
 		StringBuilder builder = new StringBuilder();
-		builder.append("Credits: \nModMaker By Pumuckl007\nSwingX by Free Software Foundation"
+		builder.append("Credits: \nModMaker By Pumuckl007 not associated with Mojang in any way\nSwingX by Free Software Foundation"
 				+ "\nLWJGL by Lightweight Java Game Library Project\nSlick Util by Slick2D"
-				+ "\nModMaker Licence: \n");
+				+ "\nMinecraftForge by:\n\n");
+		try{
+			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/MinecraftForge-Credits.txt")));
+			String line;
+			while((line = about.readLine()) != null){
+				builder.append(line);
+				builder.append("\n");
+			}
+			about.close();
+		}catch(Exception e){e.printStackTrace();}
+		if(Main.hasMcpPremistion)
+			builder.append("\nMinecraft Coder Pack by MCP Team\n================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================");
+		else{
+			builder.append("\n================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================");
+		}
+		builder.append("\n\n\n\nModMaker Licence: \n");
 		try{
 			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/ModMaker_lisence.txt")));
 			String line;
@@ -95,6 +112,28 @@ public class About extends JDialog implements ActionListener {
 			}
 			about.close();
 		}catch(Exception e){e.printStackTrace();}
+		builder.append("\n\n\n\nMinecraft Forge Licence:\n");
+		try{
+			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/MinecraftForge-License.txt")));
+			String line;
+			while((line = about.readLine()) != null){
+				builder.append(line);
+				builder.append("\n");
+			}
+			about.close();
+		}catch(Exception e){e.printStackTrace();}
+		if(Main.hasMcpPremistion){
+			builder.append("\n\n\n\nMinecraft Coder Pack Licence:\n");
+			try{
+				BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/LICENSE.txt")));
+				String line;
+				while((line = about.readLine()) != null){
+					builder.append(line);
+					builder.append("\n");
+				}
+				about.close();
+			}catch(Exception e){e.printStackTrace();}
+		}
 		return builder.toString();
 	}
 	@Override

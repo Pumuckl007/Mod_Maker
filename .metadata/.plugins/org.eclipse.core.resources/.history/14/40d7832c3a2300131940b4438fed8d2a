@@ -1,7 +1,0 @@
-package modmaker.gui;
-
-public class GuiExport {
-	public Frame getFrame(){
-		
-	}
-}

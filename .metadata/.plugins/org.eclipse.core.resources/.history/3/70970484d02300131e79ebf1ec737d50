@@ -1,7 +1,0 @@
-package modmaker;
-
-public class Item {
-	public String[] getItemForTable(){
-		return new String[]{"Item", "Tea", "12345", "Edit", "Delet"}
-	}
-}

@@ -56,7 +56,7 @@ public class ButtonEditor extends DefaultCellEditor {
 		if (isPushed) {
 			if(this.label.equals("Delete")){
 				if(Start.gui.items.getRowCount() >= this.row){
-					Start.main.items.remove(this.row);
+					Start.main.mod.items.remove(this.row);
 					Start.gui.items.removeRow(this.row);
 				}
 			}

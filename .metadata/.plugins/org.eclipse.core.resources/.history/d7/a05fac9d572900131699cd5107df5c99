@@ -1,0 +1,61 @@
+package modmaker.export;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import modmaker.Mod;
+
+public class Export {
+	public void export(Mod mod, File file){
+		try{
+			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath() + "/" + mod.name + ".zip"));
+			for(File f : new File(file.getAbsolutePath() + "/mod/").listFiles()){
+				if(f.isDirectory()){
+					this.writeSub(file.getAbsolutePath(), f, out);
+				}
+				else{
+					FileInputStream in = new FileInputStream(f);
+
+
+					out.putNextEntry(new ZipEntry(f.getAbsolutePath().replace(file.getAbsolutePath(), ""))); 
+
+					byte[] b = new byte[1024];
+					int count;
+
+					while ((count = in.read(b)) > 0) {
+						out.write(b, 0, count);
+					}
+					in.close();
+				}
+			}
+			out.close();
+		}
+		catch(Exception e){e.printStackTrace();}
+	}
+	private void writeSub(String orginalFilePath, File file , ZipOutputStream out) throws Exception{
+		for(File f : file.listFiles()){
+			if(f.isDirectory()){
+				this.writeSub(orginalFilePath, f, out);
+			}
+			else{
+				FileInputStream in = new FileInputStream(f);
+
+
+				// name the file inside the zip  file 
+				out.putNextEntry(new ZipEntry(f.getAbsolutePath().replace(orginalFilePath, ""))); 
+
+				// buffer size
+				byte[] b = new byte[1024];
+				int count;
+
+				while ((count = in.read(b)) > 0) {
+					out.write(b, 0, count);
+				}
+				in.close();
+			}
+		}
+	}
+}

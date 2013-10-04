@@ -1,0 +1,47 @@
+package modmaker;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.Collections;
+import java.util.Comparator;
+
+import modmaker.export.Export;
+
+public class Main {
+	public Mod mod;
+	public File workingDir;
+	public Main(){
+		workingDir = new File(System.getProperty("user.home") + "/.modmaker/");
+		workingDir.mkdirs();
+		mod = new Mod("","","",true);
+		Collections.sort(mod.items, new itemSort());
+		File f = new File(System.getProperty("user.home") + "/.modmaker/mod/");
+		f.mkdir();
+		String modMakerLicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/LICENCE.txt";
+		try {
+			URL website = new URL(modMakerLicence);
+			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/mod/ModMaker_lisence.txt");
+			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			fos.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		new Export().export(mod, file);
+	}
+	private class itemSort implements Comparator <Item> {
+
+	    @Override
+	    public int compare(Item o1, Item o2) {
+	        if(o1.getName() != null && o2.getName() != null){
+	            return o1.getName().compareToIgnoreCase(o2.getName());
+	        }
+
+	        return 0;
+	    }
+
+	}
+}

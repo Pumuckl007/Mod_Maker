@@ -1,7 +1,0 @@
-package modmaker.gui;
-
-public class DialogEditItem {
-	public DialogEditItem(Item item){
-		
-	}
-}
