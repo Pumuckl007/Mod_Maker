@@ -42,10 +42,10 @@ public class SaveSlashLoad {
 			writer.close();
 
 			ZipOutputStream out;
-			if(file.getName().contains(".mcm"))
+			if(file.getName().contains(".mod"))
 				out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath()));
 			else
-				out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath() + ".mcm"));
+				out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath() + ".mod"));
 			for(File f : temp.listFiles()){
 				if(f.isDirectory()){
 					FileUtils.writeSub(temp.getAbsolutePath(), f, out);
@@ -97,6 +97,7 @@ public class SaveSlashLoad {
 							Start.gui.items.addRow(item.getItemForTable());
 							for(String string : line.split(":")){
 								if(string.contains("/")){
+									System.out.println(string.split("}")[0].replace("\"", ""));
 									item.setImageFile(new File(string.split("}")[0].replace("\"", "")));
 								}
 							}

@@ -97,6 +97,7 @@ public class SaveSlashLoad {
 							Start.gui.items.addRow(item.getItemForTable());
 							for(String string : line.split(":")){
 								if(string.contains("/")){
+									System.out.println(string.split("}")[0].replace("\"", ""));
 									item.setImageFile(new File(string.split("}")[0].replace("\"", "")));
 								}
 							}

@@ -44,10 +44,6 @@ public class Export {
 					writer.write(builder.toString());
 					writer.close();
 				}
-				
-				
-				
-				
 				ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath() + ".zip"));
 				for(File f : new File(file.getAbsolutePath()).listFiles()){
 					if(f.isDirectory()){

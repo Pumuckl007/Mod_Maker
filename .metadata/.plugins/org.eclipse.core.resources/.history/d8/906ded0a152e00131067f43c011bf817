@@ -187,12 +187,29 @@ Display.destroy();
 
 					@Override
 					public boolean accept(File file) {
-						return file.isDirectory() || file.getName().contains(".mcm");
+						if(file.isDirectory()){
+							return true;
+						}
+						ZipFile zipfile = null;
+					    try {
+					        zipfile = new ZipFile(file);
+					        return true;
+					    } catch (Exception e) {
+					        return false;
+					    } finally {
+					        try {
+					            if (zipfile != null) {
+					                zipfile.close();
+					                zipfile = null;
+					            }
+					        } catch (Exception e) {
+					        }
+					    }
 					}
 
 					@Override
 					public String getDescription() {
-						return "ModMaker files (.mcm)";
+						return "ModMaker files (.mod)";
 					}
 					
 				});
