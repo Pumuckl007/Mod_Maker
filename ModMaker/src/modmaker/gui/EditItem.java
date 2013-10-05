@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,9 +48,10 @@ public class EditItem extends JDialog implements ActionListener {
 		}
 		@Override
 		public void caretUpdate(CaretEvent e) {
-			this.editItem.editItem.item.setName(((JTextField)e.getSource()).getText());
+			if(Pattern.matches("[\u0000-\u002E\u0030-\uFFFF]+", ((JTextField)e.getSource()).getText()))
+				this.editItem.editItem.item.setName(((JTextField)e.getSource()).getText());
 		}
-		
+
 	}
 	private class IDCaretListener implements CaretListener{
 		private EditItem editItem;
@@ -66,9 +68,9 @@ public class EditItem extends JDialog implements ActionListener {
 				candoIt = false;
 			}
 			if(candoIt)
-			this.editItem.editItem.item.setId(new Integer(((JTextField)e.getSource()).getText()));
+				this.editItem.editItem.item.setId(new Integer(((JTextField)e.getSource()).getText()));
 		}
-		
+
 	}
 	private void addGui(){
 		SpringLayout layout = new SpringLayout();

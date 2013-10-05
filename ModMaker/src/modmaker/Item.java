@@ -13,7 +13,6 @@ public class Item {
 	private Integer metadat = 0;
 	public Item(String name){
 		this.name = name;
-		this.recipies.add(new Recipy());
 		this.image = new File("resources/textures/Tea-Bag.JPEG");
 	}
 	public String[] getItemForTable(){
@@ -37,7 +36,10 @@ public class Item {
 	public void setMetadat(int metadat) {
 		this.metadat = metadat;
 	}
-	public void setImage(File file){
+	public void setImage(String file){
+		this.image = new File(file);
+	}
+	public void setImageFile(File file){
 		this.image = file;
 	}
 	public URL getImage(){

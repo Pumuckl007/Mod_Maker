@@ -1,7 +1,0 @@
-package modmaker;
-
-import java.util.ArrayList;
-
-public class ArrayListSortItem<Object> extends ArrayList<Object> {
-
-}

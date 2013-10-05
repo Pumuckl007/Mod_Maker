@@ -4,21 +4,24 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.zip.ZipFile;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JToolBar;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
 
 import modmaker.Item;
 import modmaker.Start;
 import modmaker.export.Export;
+import modmaker.export.SaveSlashLoad;
 
 import org.jdesktop.swingx.JXTable;
 
@@ -69,13 +72,6 @@ public class Gui {
 			}
 
 		});
-		JSlider sizeSlider = new JSlider(JSlider.HORIZONTAL, 10,400,100);
-		sizeSlider.setToolTipText("Slide to adjust the scale of the items/blocks");
-		sizeSlider.setMinorTickSpacing(2);
-		sizeSlider.setMajorTickSpacing(10);
-		sMBLayout.putConstraint(SpringLayout.EAST, sizeSlider,0,SpringLayout.EAST, sliderAndButtons);
-		sMBLayout.putConstraint(SpringLayout.WEST, sizeSlider,-200,SpringLayout.EAST, sliderAndButtons);
-//		sliderAndButtons.add(sizeSlider);
 		frame.add(sliderAndButtons, BorderLayout.NORTH);
 		layout.putConstraint(SpringLayout.NORTH, sliderAndButtons,0,SpringLayout.SOUTH, toolBar);
 		layout.putConstraint(SpringLayout.EAST, sliderAndButtons,0,SpringLayout.EAST, frame.getContentPane());
@@ -168,10 +164,12 @@ Display.destroy();
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Saved");
 				try {
 					JFileChooser fc = new JFileChooser();
-					fc.showSaveDialog(Start.gui.frame);
+					int returnval = fc.showSaveDialog(Start.gui.frame);
+					if(returnval == JFileChooser.APPROVE_OPTION && fc.getSelectedFile() != null){
+							SaveSlashLoad.save(Start.main.mod, new File(fc.getSelectedFile().getAbsolutePath() + "/"));
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -185,7 +183,40 @@ Display.destroy();
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser fc = new JFileChooser();
-				fc.showOpenDialog(Start.gui.frame);
+				fc.setFileFilter(new FileFilter(){
+
+					@Override
+					public boolean accept(File file) {
+						if(file.isDirectory()){
+							return true;
+						}
+						ZipFile zipfile = null;
+					    try {
+					        zipfile = new ZipFile(file);
+					        return true;
+					    } catch (Exception e) {
+					        return false;
+					    } finally {
+					        try {
+					            if (zipfile != null) {
+					                zipfile.close();
+					                zipfile = null;
+					            }
+					        } catch (Exception e) {
+					        }
+					    }
+					}
+
+					@Override
+					public String getDescription() {
+						return "ModMaker files (.mod)";
+					}
+					
+				});
+				int returnval = fc.showOpenDialog(Start.gui.frame);
+				if(returnval == JFileChooser.APPROVE_OPTION && fc.getSelectedFile() != null){
+						SaveSlashLoad.load(fc.getSelectedFile());
+				}
 			}
 
 		});

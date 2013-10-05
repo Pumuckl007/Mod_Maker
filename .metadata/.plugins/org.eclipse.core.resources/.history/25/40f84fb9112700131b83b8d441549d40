@@ -1,7 +1,0 @@
-package modmaker.gui;
-
-import javax.swing.JButton;
-
-public class RecipyButton extends JButton {
-
-}

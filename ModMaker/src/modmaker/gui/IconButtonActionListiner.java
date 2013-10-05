@@ -50,7 +50,7 @@ public class IconButtonActionListiner implements ActionListener{
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				this.item.setImage(selectedFile);
+				this.item.setImageFile(selectedFile);
 				this.icon.setIcon(imageicon);
 			}
 		} catch (Exception e1) {

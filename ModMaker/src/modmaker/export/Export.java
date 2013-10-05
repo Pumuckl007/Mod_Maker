@@ -47,11 +47,10 @@ public class Export {
 				ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath() + ".zip"));
 				for(File f : new File(file.getAbsolutePath()).listFiles()){
 					if(f.isDirectory()){
-						this.writeSub(file.getAbsolutePath(), f, out);
+						FileUtils.writeSub(file.getAbsolutePath(), f, out);
 					}
 					else{
 						FileInputStream in = new FileInputStream(f);
-
 
 						out.putNextEntry(new ZipEntry(f.getAbsolutePath().replace(file.getAbsolutePath(), ""))); 
 
@@ -73,29 +72,6 @@ public class Export {
 		else{
 			JOptionPane.showMessageDialog(Start.gui.frame, "Error: Cant compile no MCP found!",
 					"Error: No MCP Found!", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	private void writeSub(String orginalFilePath, File file , ZipOutputStream out) throws Exception{
-		for(File f : file.listFiles()){
-			if(f.isDirectory()){
-				this.writeSub(orginalFilePath, f, out);
-			}
-			else{
-				FileInputStream in = new FileInputStream(f);
-
-
-				// name the file inside the zip  file 
-				out.putNextEntry(new ZipEntry(f.getAbsolutePath().replace(orginalFilePath, ""))); 
-
-				// buffer size
-				byte[] b = new byte[1024];
-				int count;
-
-				while ((count = in.read(b)) > 0) {
-					out.write(b, 0, count);
-				}
-				in.close();
-			}
 		}
 	}
 }

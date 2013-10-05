@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -24,6 +25,9 @@ import javax.imageio.ImageIO;
 
 import modmaker.export.FileUtils;
 import modmaker.gui.InitFiles;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Mod {
 	public ArrayList<String> vannilaItems = new ArrayList<String>();
@@ -59,7 +63,7 @@ public class Mod {
 				item.setId(Integer.parseInt(line.split(" ")[0].split(":")[0]));
 				if(line.contains(":"))
 					item.setMetadat(Integer.parseInt(line.split(" ")[0].split(":")[1]));
-				item.setImage(new File(System.getProperty("user.home") + "/.modmaker/items/" + line.split(" ")[2] + ".png"));
+				item.setImageFile(new File(System.getProperty("user.home") + "/.modmaker/items/" + line.split(" ")[2] + ".png"));
 				this.vannilaItemLookUp.put(item.getName(), item);
 				this.vannilaItems.add(item.getName());
 			}
@@ -330,7 +334,23 @@ public class Mod {
 	
 	
 	
-	
+	public String save(){
+		StringBuilder builder = new StringBuilder();
+		Gson gson = new Gson();
+		HashMap<String, Object> info = new HashMap<String, Object>();
+		info.put("Name", this.name);
+		info.put("Description", this.info);
+		info.put("Author", this.by);
+		info.put("Source", this.exportSource);
+		builder.append(gson.toJson(info));
+		return builder.toString();
+	}
+	public static void load(String json){
+		Gson gson = new Gson();
+		Type hashMapType = new TypeToken<HashMap<String, Object>>(){}.getType();
+		HashMap<String, Object> info = gson.fromJson(json, hashMapType);
+		Start.main.mod = new Mod((String)info.get("Name"), (String)info.get("Description"), (String)info.get("Author"), (Boolean)info.get("Source"));
+	}
 	
 	
 	
