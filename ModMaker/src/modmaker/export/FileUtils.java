@@ -2,6 +2,10 @@ package modmaker.export;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -39,6 +43,24 @@ public class FileUtils {
 				}
 				in.close();
 			}
+		}
+	}
+	public static void downloadFile(String url, String output, String directory){
+		new File(directory).mkdirs();
+		FileUtils.downloadFile(url, output);
+	}
+	public static void downloadFile(String url, String output){
+		FileUtils.downloadFile(url, new File(output));
+	}
+	public static void downloadFile(String url, File output){
+		try {
+			URL website = new URL(url);
+			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			FileOutputStream fos = new FileOutputStream(output);
+			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			fos.close();
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -218,39 +218,16 @@ public class Mod {
 			}
 			init.setProgress(425, "Downloading SlickUtil Licence");
 			String slickUtillicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/SlickUtil_lisence.txt";
-			try {
-				URL website = new URL(slickUtillicence);
-				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-				FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/SlickUtil_lisence.txt");
-				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-				fos.close();
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
+			FileUtils.downloadFile(slickUtillicence, System.getProperty("user.home") + "/.modmaker/SlickUtil_lisence.txt");
 			init.setProgress(435, "Downloading ModMaker Licence");
 			String modMakerLicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/LICENCE.txt";
-			try {
-				URL website = new URL(modMakerLicence);
-				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-				FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/ModMaker_lisence.txt");
-				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-				fos.close();
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
+			FileUtils.downloadFile(modMakerLicence, System.getProperty("user.home") + "/.modmaker/ModMaker_lisence.txt");
+			init.setProgress(440, "Downloading Gson Licence");
+			String gsonLicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/downloadables/gson_licence.txt";
+			FileUtils.downloadFile(gsonLicence, new File(System.getProperty("user.home") + "/.modmaker/Gson_licence.txt"));
 			FileUtils.removeDirectory(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/"));
-			init.setProgress(440, "Downloading Minecraft Forge");
-			try {
-				File location = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/");
-				location.mkdir();
-				URL website = new URL(minecraftForgeLocation);
-				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-				FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/MinecraftForge/minecraftForge.zip");
-				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-				fos.close();
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
+			init.setProgress(445, "Downloading Minecraft Forge");
+			FileUtils.downloadFile(minecraftForgeLocation, System.getProperty("user.home") + "/.modmaker/MinecraftForge/minecraftForge.zip", System.getProperty("user.home") + "/.modmaker/MinecraftForge/");
 			init.setProgress(480, "Extracting Minecraft Forge");
 			ZipFile minecraftForge = null;
 			try {
