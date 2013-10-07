@@ -13,10 +13,35 @@ import javax.swing.JOptionPane;
 import modmaker.Item;
 import modmaker.Main;
 import modmaker.Mod;
+import modmaker.Recipy;
 import modmaker.Start;
 import modmaker.gui.DialogExportingGui;
 
 public class Export {
+	public static final String items = ""
+			+ "package @PACKAGE@;\n"
+			+ "\n"
+			+ "import net.minecraft.block.Block;\n"
+			+ "import net.minecraft.item.Item;\n"
+			+ "import net.minecraft.item.ItemStack;"
+			+ "\n"
+			+ "\n"
+			+ "\n"
+			+ "import cpw.mods.fml.common.registry.GameRegistry;\n"
+			+ "\npublic class InitItems {\n"
+			+ "\n"
+			+ "    @ITEMINSTANCES@\n"
+			+ "\n"
+			+ "    public static void init() {\n"
+			+ "\n"
+			+ "        @INITITEM@\n"
+			+ "\n"
+			+ "\n"
+			+ "\n"
+			+ "        @ITEMRECIPTIES@\n"
+			+ "\n"
+			+ "    }\n"
+			+ "}";
 	@SuppressWarnings("unused")
 	public void export(Mod mod, File file){
 		if(Main.hasMcpPremistion || mod.exportSource){
@@ -26,6 +51,13 @@ public class Export {
 				modDirecotry.mkdirs();
 				File itemDirecotry = new File(modDirecotry.getAbsolutePath() + "/items/");
 				itemDirecotry.mkdir();
+				
+				String modItems = items;
+				modItems = modItems.replace("@PACKAGE@", mod.name.toLowerCase() + ".items");
+				StringBuilder itemInstances = new StringBuilder();
+				StringBuilder initItem = new StringBuilder();
+				StringBuilder itemRecipies = new StringBuilder();
+				
 				for(Item item : mod.items){
 					File itemfile = new File(itemDirecotry.getAbsolutePath() + "/Item" + item.getName() + ".java");
 					Integer i = 2;
@@ -43,11 +75,22 @@ public class Export {
 					builder.append("\n}");
 					writer.write(builder.toString());
 					writer.close();
+					String itemVarName = itemfile.getName().replace(".java", "").replaceFirst(Character.toString(item.getName().charAt(0)),
+							Character.toString(item.getName().toLowerCase().charAt(0)));
+					itemInstances.append("public static Item " + itemVarName + ";\n    ");
+					initItem.append(itemVarName + " = new " + itemfile.getName().replace(".java", "") + "();\n    ");
+					for(Recipy recpiy : item.recipies)
+					itemRecipies.append("//" + item.getName() + " : " + recpiy.recipy + "\n    ");
 				}
 				
 				
-				
-				
+				modItems = modItems.replace("@ITEMINSTANCES@", itemInstances.toString());
+				modItems = modItems.replace("@INITITEM@", initItem.toString());
+				modItems = modItems.replace("@ITEMRECIPTIES@", itemRecipies.toString());
+				BufferedWriter writer = new BufferedWriter(new FileWriter(itemDirecotry.getAbsolutePath() + "/InitItems.java"));
+				writer.append(modItems);
+				writer.close();
+
 				ZipOutputStream out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath() + ".zip"));
 				for(File f : new File(file.getAbsolutePath()).listFiles()){
 					if(f.isDirectory()){
@@ -69,6 +112,7 @@ public class Export {
 				}
 				FileUtils.removeDirectory(modDirecotry);
 				out.close();
+				modDirecotry.delete();
 			}
 			catch(Exception e){e.printStackTrace();}
 			dialog.dispose();
