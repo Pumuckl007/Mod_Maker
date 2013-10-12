@@ -46,9 +46,13 @@ public class FileUtils {
 			}
 		}
 	}
-	public static void writerStringToZip(ZipOutputStream out, String string, String filename) throws IOException{
+	public static void writerStringToZip(ZipOutputStream out, String string, String filename){
 		ZipEntry entry = new ZipEntry(filename);
-		out.putNextEntry(entry);
+		try {
+			out.putNextEntry(entry);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		out.write(string.getBytes());
 	}
 	public static void downloadFile(String url, String output, String directory){

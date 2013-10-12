@@ -57,10 +57,10 @@ public class Export {
 				StringBuilder itemRecipies = new StringBuilder();
 				ArrayList<String> itemfiles = new ArrayList<String>();
 				for(Item item : mod.items){
-					String itemfile = "Item/Items" + item.getName() + ".java";
+					String itemfile = "/Item" + item.getName() + ".java";
 					Integer i = 2;
 					while(itemfiles.contains(itemfile)){
-						itemfile = "Item/Items" + item.getName() + i.toString() + ".java";
+						itemfile = "/Item" + item.getName() + i.toString() + ".java";
 						i++;
 					}
 					itemfiles.add(itemfile);
@@ -71,7 +71,10 @@ public class Export {
 					builder.append("\npublic class " + itemfile.replace(".java", "") +" extends Item {");
 					builder.append("\npublic " + itemfile.replace(".java", "") +"() {\nsuper(" + item.getId().toString() + "-256);\n}");
 					builder.append("\n}");
-					FileUtils.writerStringToZip(out, builder.toString(), itemfile);
+					ZipEntry entry = new ZipEntry(itemfile);
+					out.putNextEntry(entry);
+					out.write(builder.toString().getBytes());
+					out.close();
 					String itemVarName = itemfile.replace(".java", "").replaceFirst(Character.toString(item.getName().charAt(0)),
 							Character.toString(item.getName().toLowerCase().charAt(0)));
 					itemInstances.append("public static Item " + itemVarName + ";\n    ");
@@ -79,12 +82,37 @@ public class Export {
 					for(Recipy recpiy : item.recipies)
 					itemRecipies.append("//" + item.getName() + " : " + recpiy.recipy + "\n    ");
 				}
+				
+				
 				modItems = modItems.replace("@ITEMINSTANCES@", itemInstances.toString());
 				modItems = modItems.replace("@INITITEM@", initItem.toString());
 				modItems = modItems.replace("@ITEMRECIPTIES@", itemRecipies.toString());
-				FileUtils.writerStringToZip(out, modItems, "Items/InitItems.java");
-				out.close();
+				BufferedWriter writer = new BufferedWriter(new FileWriter("Items/InitItems.java"));
+				writer.append(modItems);
+				writer.close();
 
+				
+				for(File f : new File(file.getAbsolutePath()).listFiles()){
+					if(f.isDirectory()){
+						FileUtils.writeSub(file.getAbsolutePath(), f, out);
+					}
+					else{
+						FileInputStream in = new FileInputStream(f);
+
+						out.putNextEntry(new ZipEntry(f.getAbsolutePath().replace(file.getAbsolutePath(), ""))); 
+
+						byte[] b = new byte[1024];
+						int count;
+
+						while ((count = in.read(b)) > 0) {
+							out.write(b, 0, count);
+						}
+						in.close();
+					}
+				}
+				FileUtils.removeDirectory(modDirecotry);
+				out.close();
+				modDirecotry.delete();
 			}
 			catch(Exception e){e.printStackTrace();}
 			dialog.dispose();

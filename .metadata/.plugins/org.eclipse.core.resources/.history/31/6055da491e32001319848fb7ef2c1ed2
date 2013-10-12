@@ -57,10 +57,10 @@ public class Export {
 				StringBuilder itemRecipies = new StringBuilder();
 				ArrayList<String> itemfiles = new ArrayList<String>();
 				for(Item item : mod.items){
-					String itemfile = "Item/Items" + item.getName() + ".java";
+					String itemfile = "/Item" + item.getName() + ".java";
 					Integer i = 2;
 					while(itemfiles.contains(itemfile)){
-						itemfile = "Item/Items" + item.getName() + i.toString() + ".java";
+						itemfile = "/Item" + item.getName() + i.toString() + ".java";
 						i++;
 					}
 					itemfiles.add(itemfile);
@@ -79,10 +79,15 @@ public class Export {
 					for(Recipy recpiy : item.recipies)
 					itemRecipies.append("//" + item.getName() + " : " + recpiy.recipy + "\n    ");
 				}
+				
+				
 				modItems = modItems.replace("@ITEMINSTANCES@", itemInstances.toString());
 				modItems = modItems.replace("@INITITEM@", initItem.toString());
 				modItems = modItems.replace("@ITEMRECIPTIES@", itemRecipies.toString());
-				FileUtils.writerStringToZip(out, modItems, "Items/InitItems.java");
+				ZipEntry entry = new ZipEntry("Items/InitItems.java");
+				out.putNextEntry(entry);
+				FileUtils.writerStringToZip(out, modItems.getBytes(), "Items/InitItems.java");
+				out.write(modItems.getBytes());
 				out.close();
 
 			}

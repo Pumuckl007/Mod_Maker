@@ -31,18 +31,42 @@ public class SaveSlashLoad {
 				out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath()));
 			else
 				out = new ZipOutputStream(new FileOutputStream(file.getAbsolutePath() + ".mcm"));
+			File temp = new File(Start.main.workingDir.getAbsolutePath() + "/temp/" + file.getName() + "/");
+			File modtempdir = new File(temp.getAbsolutePath() + "/mod/" + file.getName() + "/");
+			temp.mkdirs();
+			modtempdir.mkdirs();
 			Gson gson = new Gson();
 			StringBuilder builder = new StringBuilder();
 			for(Item item : mod.items){
 				builder.append(gson.toJson(item) + "\n");
 			}
+			BufferedWriter writer = new BufferedWriter(new FileWriter(modtempdir.getAbsolutePath() + "/items.json"));
+			writer.append(builder.toString());
+			writer.close();
+			writer = new BufferedWriter(new FileWriter(modtempdir.getAbsolutePath() + "/mod.json"));
 			ZipEntry entry = new ZipEntry("mod.json");
-			out.putNextEntry(entry);
-			out.write(mod.save().getBytes());
-			ZipEntry entry2 = new ZipEntry("items.json");
-			out.putNextEntry(entry2);
-			out.write(builder.toString().getBytes());
+			writer.append(mod.save());
+			writer.close();
+
+			
+			for(File f : temp.listFiles()){
+				if(f.isDirectory()){
+					FileUtils.writeSub(temp.getAbsolutePath(), f, out);
+				}
+				else{
+					FileInputStream in = new FileInputStream(f);
+					out.putNextEntry(new ZipEntry(f.getAbsolutePath().replace(temp.getAbsolutePath(), ""))); 
+					byte[] b = new byte[1024];
+					int count;
+
+					while ((count = in.read(b)) > 0) {
+						out.write(b, 0, count);
+					}
+					in.close();
+				}
+			}
 			out.close();
+			FileUtils.removeDirectory(new File(Start.main.workingDir.getAbsolutePath() + "/temp/" + file.getName()));
 		}
 		catch(Exception e){
 			e.printStackTrace();

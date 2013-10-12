@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.awt.dnd.DragSourceListener"/>
 <fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
 <fullyQualifiedTypeName name="java.awt.datatransfer.StringSelection"/>
 <fullyQualifiedTypeName name="java.awt.dnd.DropTarget"/>
@@ -41,7 +40,6 @@
 <fullyQualifiedTypeName name="modmaker.export.Save"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="modmaker.Item"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.lang.ProcessBuilder.Redirect.Type"/>
 <fullyQualifiedTypeName name="modmaker.ArrayListSortItem"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="java.util.zip.ZipFile"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+<fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

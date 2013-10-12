@@ -38,11 +38,10 @@ public class SaveSlashLoad {
 			}
 			ZipEntry entry = new ZipEntry("mod.json");
 			out.putNextEntry(entry);
-			out.write(mod.save().getBytes());
+			out.write(mod.save().getBytes(), 0, 1);
 			ZipEntry entry2 = new ZipEntry("items.json");
 			out.putNextEntry(entry2);
-			out.write(builder.toString().getBytes());
-			out.close();
+			out.write(builder.toString().getBytes(), 0, 2);
 		}
 		catch(Exception e){
 			e.printStackTrace();
