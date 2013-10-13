@@ -55,8 +55,8 @@ public class About extends JDialog implements ActionListener {
 	}
 	private String getText(){
 		StringBuilder builder = new StringBuilder();
-		builder.append("Credits: \nModMaker By Pumuckl007 not associated with Mojang in any way\nSwingX by Free Software Foundation"
-				+ "\nLWJGL by Lightweight Java Game Library Project\nSlick Util by Slick2D"
+		builder.append("Credits: \nModMaker By Pumuckl007\nSwingX by Free Software Foundation"
+				+ "\nLWJGL by Lightweight Java Game Library Project\nSlick Util by Slick2D\nGson by Google"
 				+ "\nMinecraftForge by:\n\n");
 		try{
 			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/MinecraftForge-Credits.txt")));
@@ -134,6 +134,16 @@ public class About extends JDialog implements ActionListener {
 				about.close();
 			}catch(Exception e){e.printStackTrace();}
 		}
+		builder.append("\n\n\n\nGson Licence:\n");
+		try{
+			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/Gson_licence.txt")));
+			String line;
+			while((line = about.readLine()) != null){
+				builder.append(line);
+				builder.append("\n");
+			}
+			about.close();
+		}catch(Exception e){e.printStackTrace();}
 		return builder.toString();
 	}
 	@Override
