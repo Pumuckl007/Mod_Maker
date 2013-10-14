@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 
 import javax.swing.JButton;
@@ -15,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 
 import modmaker.Main;
+import modmaker.export.FileUtils;
 
 public class About extends JDialog implements ActionListener {
 	/**
@@ -55,11 +55,11 @@ public class About extends JDialog implements ActionListener {
 	}
 	private String getText(){
 		StringBuilder builder = new StringBuilder();
-		builder.append("Credits: \nModMaker By Pumuckl007\nSwingX by Free Software Foundation"
+		builder.append("Credits also found at " + System.getProperty("user.home") + "/.modmaker/" + ": \nModMaker By Pumuckl007\nSwingX by Free Software Foundation"
 				+ "\nLWJGL by Lightweight Java Game Library Project\nSlick Util by Slick2D\nGson by Google"
 				+ "\nMinecraftForge by:\n\n");
 		try{
-			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/MinecraftForge-Credits.txt")));
+			BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/MinecraftForge-Credits.txt")));
 			String line;
 			while((line = about.readLine()) != null){
 				builder.append(line);
@@ -74,7 +74,7 @@ public class About extends JDialog implements ActionListener {
 		}
 		builder.append("\n\n\n\nModMaker Licence: \n");
 		try{
-			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/ModMaker_lisence.txt")));
+			BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/ModMaker_lisence.txt")));
 			String line;
 			while((line = about.readLine()) != null){
 				builder.append(line);
@@ -84,7 +84,7 @@ public class About extends JDialog implements ActionListener {
 		}catch(Exception e){e.printStackTrace();}
 		builder.append("\n\n\n\nSwingX Licence:\n");
 		try{
-			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/SwingX_lisence.txt")));
+			BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/SwingX_lisence.txt")));
 			String line;
 			while((line = about.readLine()) != null){
 				builder.append(line);
@@ -94,7 +94,7 @@ public class About extends JDialog implements ActionListener {
 		}catch(Exception e){e.printStackTrace();}
 		builder.append("\n\n\n\nLWJGL Licence:\n");
 		try{
-			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/LWJGL_lisence.txt")));
+			BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/LWJGL_lisence.txt")));
 			String line;
 			while((line = about.readLine()) != null){
 				builder.append(line);
@@ -104,7 +104,7 @@ public class About extends JDialog implements ActionListener {
 		}catch(Exception e){e.printStackTrace();}
 		builder.append("\n\n\n\nSlick Util Licence:\n");
 		try{
-			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/SlickUtil_lisence.txt")));
+			BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/SlickUtil_lisence.txt")));
 			String line;
 			while((line = about.readLine()) != null){
 				builder.append(line);
@@ -114,7 +114,7 @@ public class About extends JDialog implements ActionListener {
 		}catch(Exception e){e.printStackTrace();}
 		builder.append("\n\n\n\nMinecraft Forge Licence:\n");
 		try{
-			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/MinecraftForge-License.txt")));
+			BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/MinecraftForge-License.txt")));
 			String line;
 			while((line = about.readLine()) != null){
 				builder.append(line);
@@ -125,7 +125,7 @@ public class About extends JDialog implements ActionListener {
 		if(Main.hasMcpPremistion){
 			builder.append("\n\n\n\nMinecraft Coder Pack Licence:\n");
 			try{
-				BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/LICENSE.txt")));
+				BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/LICENSE.txt")));
 				String line;
 				while((line = about.readLine()) != null){
 					builder.append(line);
@@ -136,7 +136,7 @@ public class About extends JDialog implements ActionListener {
 		}
 		builder.append("\n\n\n\nGson Licence:\n");
 		try{
-			BufferedReader about = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/Gson_licence.txt")));
+			BufferedReader about = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/Gson_licence.txt")));
 			String line;
 			while((line = about.readLine()) != null){
 				builder.append(line);

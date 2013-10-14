@@ -13,26 +13,26 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="/" key="selection"/>
+		<item value="FileUtils.file(" key="selection"/>
 		<list key="findhistory">
+			<item value="new File("/>
+			<item value="new File"/>
+			<item value="frame"/>
+			<item value="oldMod"/>
+			<item value="mod"/>
 			<item value="/"/>
 			<item value="fromJson("/>
 			<item value="fromJ"/>
-			<item value="getfrom"/>
-			<item value="get"/>
-			<item value="frame"/>
-			<item value="*"/>
-			<item value="@Override"/>
 		</list>
 		<list key="replacehistory">
+			<item value="FileUtils.file("/>
+			<item value="FileUtils.file"/>
 			<item value="this"/>
+			<item value="Start.main.mod"/>
+			<item value="Start.gui.modInfo"/>
 			<item value=""/>
 			<item value="RecipyButton()"/>
 			<item value="RecipyButton"/>
-			<item value="panel"/>
-			<item value="recipySlot6"/>
-			<item value="recipySlot7"/>
-			<item value="recipySlot8"/>
 		</list>
 	</section>
 </section>

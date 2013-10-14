@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
 <fullyQualifiedTypeName name="java.awt.datatransfer.StringSelection"/>
 <fullyQualifiedTypeName name="java.awt.dnd.DropTarget"/>
 <fullyQualifiedTypeName name="java.awt.datatransfer.DataFlavor"/>
@@ -19,11 +18,9 @@
 <fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="java.nio.channels.Channels"/>
 <fullyQualifiedTypeName name="java.nio.channels.ReadableByteChannel"/>
-<fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="javax.swing.JProgressBar"/>
 <fullyQualifiedTypeName name="modmaker.init.InitFiles"/>
 <fullyQualifiedTypeName name="modmaker.gui.Gui"/>
@@ -31,14 +28,11 @@
 <fullyQualifiedTypeName name="javax.swing.JScrollPane"/>
 <fullyQualifiedTypeName name="java.io.BufferedWriter"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
-<fullyQualifiedTypeName name="javax.swing.JDialog"/>
 <fullyQualifiedTypeName name="modmaker.gui.DialogExportingGui"/>
 <fullyQualifiedTypeName name="modmaker.Main"/>
-<fullyQualifiedTypeName name="modmaker.export.FileUtils"/>
 <fullyQualifiedTypeName name="modmaker.json.JSONArray"/>
 <fullyQualifiedTypeName name="modmaker.json.JSONWriter"/>
 <fullyQualifiedTypeName name="modmaker.export.Save"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="modmaker.Item"/>
 <fullyQualifiedTypeName name="java.lang.ProcessBuilder.Redirect.Type"/>
 <fullyQualifiedTypeName name="modmaker.ArrayListSortItem"/>
@@ -60,4 +54,10 @@
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
 <fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="javax.swing.JDialog"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="modmaker.export.File"/>
+<fullyQualifiedTypeName name="modmaker.export.FileUtils"/>
 </qualifiedTypeNameHistroy>

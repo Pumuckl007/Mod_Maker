@@ -24,6 +24,9 @@ public class FileUtils {
 			directory.delete();
 		}
 	}
+	public static File file(String path){
+		return new File(path.replace("/", File.separator));
+	}
 	public static void writeSub(String orginalFilePath, File file , ZipOutputStream out) throws Exception{
 		for(File f : file.listFiles()){
 			if(f.isDirectory()){

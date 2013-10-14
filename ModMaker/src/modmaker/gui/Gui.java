@@ -28,7 +28,6 @@ import org.jdesktop.swingx.JXTable;
 public class Gui {
 	public JFrame frame;
 	public boolean buttonPushed;
-	public DialogModInfoGui modInfo = new DialogModInfoGui();
 	public ItemTableModle items;
 	public Gui(){
 		SpringLayout layout = new SpringLayout();
@@ -154,7 +153,7 @@ Display.destroy();
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Start.gui.modInfo.popUpFrame("New");
+				new OpenModInfo().open("New", true);
 			}
 
 		});
@@ -216,6 +215,15 @@ Display.destroy();
 				if(returnval == JFileChooser.APPROVE_OPTION && fc.getSelectedFile() != null){
 					new Export().export(Start.main.mod, fc.getSelectedFile());
 				}
+			}
+		});
+		JButton modInfoButton = new JButton("Mod Info");
+		toolBar.add(modInfoButton);
+		modInfoButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new OpenModInfo().open("Mod Info", false);
 			}
 		});
 		JButton aboutButton = new JButton("About");

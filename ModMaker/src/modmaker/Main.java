@@ -7,7 +7,7 @@ import java.util.Comparator;
 public class Main {
 	public Mod mod;
 	public File workingDir;
-	public static final boolean hasMcpPremistion = true;
+	public static final boolean hasMcpPremistion = false;
 	public Main(){
 		workingDir = new File(System.getProperty("user.home") + "/.modmaker/");
 		workingDir.mkdirs();

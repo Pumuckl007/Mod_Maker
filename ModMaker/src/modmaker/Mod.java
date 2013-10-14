@@ -3,18 +3,13 @@ package modmaker;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -47,23 +42,23 @@ public class Mod {
 		this.info = info;
 		this.by = by;
 		this.exportSource = exportSource;
-		File minecraft = new File(System.getProperty("user.home") + "/.minecraft/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
-		File blocks = new File(System.getProperty("user.home") + "/.modmaker/blocks/");
+		File minecraft = FileUtils.file(System.getProperty("user.home") + "/.minecraft/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
+		File blocks = FileUtils.file(System.getProperty("user.home") + "/.modmaker/blocks/");
 		blocks.mkdirs();
-		File items = new File(System.getProperty("user.home") + "/.modmaker/items/");
+		File items = FileUtils.file(System.getProperty("user.home") + "/.modmaker/items/");
 		items.mkdirs();
 		if(minecraft.exists()){
 			this.initfiles(blocks, items);
 		}
 		try {
-			BufferedReader itemreader = new BufferedReader(new FileReader(new File(System.getProperty("user.home") + "/.modmaker/items/items.txt")));
+			BufferedReader itemreader = new BufferedReader(new FileReader(FileUtils.file(System.getProperty("user.home") + "/.modmaker/items/items.txt")));
 			String line;
 			while((line = itemreader.readLine()) != null){
 				Item item = new Item(line.split(" ")[1].replace("_", " "));
 				item.setId(Integer.parseInt(line.split(" ")[0].split(":")[0]));
 				if(line.contains(":"))
 					item.setMetadat(Integer.parseInt(line.split(" ")[0].split(":")[1]));
-				item.setImageFile(new File(System.getProperty("user.home") + "/.modmaker/items/" + line.split(" ")[2] + ".png"));
+				item.setImageFile(FileUtils.file(System.getProperty("user.home") + "/.modmaker/items/" + line.split(" ")[2] + ".png"));
 				this.vannilaItemLookUp.put(item.getName(), item);
 				this.vannilaItems.add(item.getName());
 			}
@@ -93,26 +88,27 @@ public class Mod {
 	//	}
 	//	System.out.println(builder.toString());
 	private void initfiles(File blocks, File items){
-		File minecraftVerstionFile = new File(System.getProperty("user.home") + "/.modmaker/minecraftV" + this.minecraftVerstion + ((Boolean)Main.hasMcpPremistion).toString() + "/");
+		File minecraftVerstionFile = FileUtils.file(System.getProperty("user.home") + "/.modmaker/minecraftV" + this.minecraftVerstion + ((Boolean)Main.hasMcpPremistion).toString() + "/");
 		if(!minecraftVerstionFile.exists()){
 			InitFiles init = new InitFiles();
 			Thread thread = new Thread(init);
 			thread.start();
 			init.setProgress(0, "Removing Old Files");
-			for(File file : blocks.listFiles()){
+			for(java.io.File file : blocks.listFiles()){
 				file.delete();
 			}
-			for(File file : items.listFiles()){
+			for(java.io.File file : items.listFiles()){
 				file.delete();
 			}
-			File minecraftForgeFile = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/");
-			for(File file : minecraftForgeFile.listFiles()){
+			File minecraftForgeFile = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/");
+			minecraftForgeFile.mkdir();
+			for(java.io.File file : minecraftForgeFile.listFiles()){
 				file.delete();
 			}
 			init.setProgress(50, "Extracting Files");
 			blocks.mkdir();
 			items.mkdir();
-			for(File file : new File(System.getProperty("user.home") + "/.modmaker/").listFiles()){
+			for(java.io.File file : FileUtils.file(System.getProperty("user.home") + "/.modmaker/").listFiles()){
 				if(file.getName().contains("minecraftV")){
 					file.delete();
 				}
@@ -128,7 +124,7 @@ public class Mod {
 			while(entries.hasMoreElements()){
 				ZipEntry zipEntry = entries.nextElement();
 				if(zipEntry.getName().contains("/textures/blocks/") && !zipEntry.getName().contains("mcmeta")){
-					if(!new File(System.getProperty("user.home") + "/.modmaker/blocks/" + zipEntry.getName().replace("assets/minecraft/textures/blocks/", "")).exists()){
+					if(!FileUtils.file(System.getProperty("user.home") + "/.modmaker/blocks/" + zipEntry.getName().replace("assets/minecraft/textures/blocks/", "")).exists()){
 						try {
 							BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
 							BufferedImage image = ImageIO.read(pngZipedFile);
@@ -142,7 +138,7 @@ public class Mod {
 					extracted = true;
 				}
 				if(zipEntry.getName().contains("/textures/items/") && !zipEntry.getName().contains("mcmeta")){
-					if(!new File(System.getProperty("user.home") + "/.modmaker/items/" + zipEntry.getName().replace("assets/minecraft/textures/items/", "")).exists()){
+					if(!FileUtils.file(System.getProperty("user.home") + "/.modmaker/items/" + zipEntry.getName().replace("assets/minecraft/textures/items/", "")).exists()){
 						try {
 							BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
 							BufferedImage image = ImageIO.read(pngZipedFile);
@@ -179,7 +175,7 @@ public class Mod {
 				i++;
 				try {
 					if(zipEntry.getSize() > 0){
-						File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+						File file = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
 						file.mkdirs();
 						BufferedInputStream zipedFile = new BufferedInputStream(minecraftForge.getInputStream(zipEntry));
 						FileOutputStream outStream = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName());
@@ -192,8 +188,8 @@ public class Mod {
 						outStream.close();
 					}
 					else{
-						File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
-						File file2 = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName());
+						File file = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+						File file2 = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/" + zipEntry.getName());
 						file.mkdirs();
 						file2.createNewFile();
 					}
@@ -202,15 +198,15 @@ public class Mod {
 				}
 			}
 			if(Main.hasMcpPremistion){
-				FileUtils.removeDirectory(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/"));
+				FileUtils.removeDirectory(FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/"));
 				init.setProgress(770, "Installing MCP/Forge (This May Take A While)");
 				Process runtime = null;
 				try {
 					if(System.getProperty("os.name").contains("Windows")){
-						runtime = Runtime.getRuntime().exec(System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\fml\\python\\python_fml " +  System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\fml\\install.py", null, new File(System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\"));
+						runtime = Runtime.getRuntime().exec(System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\fml\\python\\python_fml " +  System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\fml\\install.py", null, FileUtils.file(System.getProperty("user.home") + "\\.modmaker\\MinecraftForge\\forge\\"));
 					}
 					else{
-						runtime = Runtime.getRuntime().exec("python " + System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/fml/install.py", null, new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/"));
+						runtime = Runtime.getRuntime().exec("python " + System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/fml/install.py", null, FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/"));
 					}
 					String line;
 					BufferedReader stdInput = new BufferedReader(new InputStreamReader(runtime.getInputStream()));
@@ -260,8 +256,8 @@ public class Mod {
 		FileUtils.downloadFile(modMakerLicence, System.getProperty("user.home") + "/.modmaker/ModMaker_lisence.txt");
 		init.setProgress(440, "Downloading Gson Licence");
 		String gsonLicence = "https://raw.github.com/Pumuckl007/Mod_Maker/master/downloadables/gson_licence.txt";
-		FileUtils.downloadFile(gsonLicence, new File(System.getProperty("user.home") + "/.modmaker/Gson_licence.txt"));
-		FileUtils.removeDirectory(new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/"));
+		FileUtils.downloadFile(gsonLicence, FileUtils.file(System.getProperty("user.home") + "/.modmaker/Gson_licence.txt"));
+		FileUtils.removeDirectory(FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/"));
 		init.setProgress(445, "Downloading Minecraft Forge");
 		FileUtils.downloadFile(minecraftForgeLocation, System.getProperty("user.home") + "/.modmaker/MinecraftForge/minecraftForge.zip", System.getProperty("user.home") + "/.modmaker/MinecraftForge/");
 		init.setProgress(480, "Extracting Minecraft Forge");
@@ -306,7 +302,7 @@ public class Mod {
 	
 //	init.setProgress(740, "Downloading MCP");
 //	try {
-//		File location = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/");
+//		File location = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/");
 //		location.mkdir();
 //		URL website = new URL(mCPlocation);
 //		ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -332,7 +328,7 @@ public class Mod {
 //		i++;
 //		try {
 //			if(zipEntry.getSize() > 0){
-//				File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+//				File file = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
 //				file.mkdirs();
 //				BufferedInputStream zipedFile = new BufferedInputStream(minecraftForge.getInputStream(zipEntry));
 //				FileOutputStream outStream = new FileOutputStream(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName());
@@ -345,8 +341,8 @@ public class Mod {
 //				zipedFile.close();
 //			}
 //			else{
-//				File file = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
-//				File file2 = new File(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName());
+//				File file = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName().replace(zipEntry.getName().split("/")[zipEntry.getName().split("/").length-1], ""));
+//				File file2 = FileUtils.file(System.getProperty("user.home") + "/.modmaker/MinecraftForge/forge/mcp/" + zipEntry.getName());
 //				file.mkdirs();
 //				file2.createNewFile();
 //			}
