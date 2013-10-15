@@ -1,0 +1,15 @@
+package modmaker.gui;
+
+import javax.swing.JDialog;
+
+public class SetDialogShown implements Runnable {
+	public JDislog dialog;
+	public SetDialogShown(JDialog dialog){
+		dialog = dialog;
+	}
+	@Override
+	public void run() {
+
+	}
+
+}

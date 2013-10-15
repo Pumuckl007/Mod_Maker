@@ -1,0 +1,11 @@
+package modmaker.gui;
+
+public class SetDialogShown implements Runnable {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

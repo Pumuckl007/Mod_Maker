@@ -1,0 +1,14 @@
+package modmaker.gui;
+
+
+
+public class OpenModInfo {
+	public boolean done;
+	public void open(String title, boolean replace){
+		done = false;
+		new DialogModInfoGui(title,replace, this);
+		while(!done){
+			System.out.println(done);
+		}
+	}
+}

@@ -1,0 +1,16 @@
+package modmaker.gui;
+
+
+
+public class OpenModInfo {
+	public boolean done;
+	public void open(String title, boolean replace){
+		done = false;
+		dialog = new DialogModInfoGui(title,replace);
+		SetDialogShown show = new SetDialogShown(dialog);
+		while(!done){
+			
+		}
+		dialog.dispose();
+	}
+}
