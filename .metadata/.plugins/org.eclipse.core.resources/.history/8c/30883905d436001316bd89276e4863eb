@@ -1,0 +1,22 @@
+package modmaker.gui;
+
+import java.awt.Point;
+
+import javax.swing.JFrame;
+
+public class GuiNodeEdit extends JFrame{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -173828128413757211L;
+	public GuiNodeEdit(JFrame parent){
+		Point p = parent.getLocation(); 
+		setLocation(p.x,p.y);
+		this.setMaximizedBounds(parent.getMaximizedBounds());
+		this.setSize(parent.getSize());
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setVisible(true);
+	}
+
+}

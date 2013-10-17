@@ -1,0 +1,10 @@
+package modmaker.gui;
+
+public class OpenGuiNodeEdit {
+	public OpenGuiNodeEdit(){
+		
+	}
+	public static OpenGuiNodeEdit opengui(){
+		return new OpenGuiNodeEdit();
+	}
+}

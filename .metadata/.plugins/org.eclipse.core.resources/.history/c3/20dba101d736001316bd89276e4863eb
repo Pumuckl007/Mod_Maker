@@ -1,0 +1,24 @@
+package modmaker.gui;
+
+import java.awt.Point;
+
+import javax.swing.JDialog;
+
+public class GuiNodeEdit extends JDialog{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -173828128413757211L;
+	public GuiNodeEdit(JDialog parent){
+		super(parent, "Node Edittor");
+		Point p = parent.getLocation(); 
+		setLocation(p.x,p.y);
+		this.setSize(parent.getParent().getSize());
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setVisible(true);
+	}
+	public void initGui(){
+		NodeDisplay diapay = new NodeDisplay();
+	}
+}

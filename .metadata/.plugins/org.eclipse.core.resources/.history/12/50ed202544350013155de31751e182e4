@@ -1,0 +1,9 @@
+package modmaker.gui;
+
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+
+public class Renderer {
+	private ArrayList<JPanel> elements = new ArrayList<JPanel>();
+}

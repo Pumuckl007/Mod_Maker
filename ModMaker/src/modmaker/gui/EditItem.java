@@ -106,7 +106,14 @@ public class EditItem extends JDialog implements ActionListener {
 		layout.putConstraint(SpringLayout.NORTH, recipytable,20,SpringLayout.SOUTH, newRecipy);
 		layout.putConstraint(SpringLayout.EAST, recipytable,0,SpringLayout.EAST, newRecipy);
 		layout.putConstraint(SpringLayout.SOUTH, recipytable,-20,SpringLayout.NORTH, done);
-		layout.putConstraint(SpringLayout.WEST, recipytable,20,SpringLayout.EAST, iD);
+		layout.putConstraint(SpringLayout.WEST, recipytable,20,SpringLayout.HORIZONTAL_CENTER, this.getContentPane());
+		JButton addAction = new JButton("Add Action");
+		this.add(addAction);
+		addAction.addActionListener(new OpenNodeEdit(this));
+		layout.putConstraint(SpringLayout.NORTH, addAction,20,SpringLayout.SOUTH, iD);
+		layout.putConstraint(SpringLayout.EAST, addAction, 200,SpringLayout.WEST, this.getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, addAction,40,SpringLayout.NORTH, addAction);
+		layout.putConstraint(SpringLayout.WEST, addAction,20,SpringLayout.WEST, this.getContentPane());
 	}
 	public JScrollPane drawTable(ItemTableModle recipies){
 		Object[][] stringItems = new Object[this.editItem.item.recipies.size()][3];
@@ -122,6 +129,17 @@ public class EditItem extends JDialog implements ActionListener {
 				new RemoveButton(new JCheckBox()));
 		JScrollPane modStuff = new JScrollPane(modStuffTable);
 		return modStuff;
+	}
+	private class OpenNodeEdit implements ActionListener{
+		JDialog frame;
+		OpenNodeEdit(JDialog frame){
+			this.frame = frame;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			OpenGuiNodeEdit.opengui(this.frame);
+		}
+		
 	}
 	public void actionPerformed(ActionEvent e) {
 		this.editItem.done = true;

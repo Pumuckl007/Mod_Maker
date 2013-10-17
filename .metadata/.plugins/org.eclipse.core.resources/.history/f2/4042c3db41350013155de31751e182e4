@@ -1,0 +1,21 @@
+package modmaker.gui;
+
+import java.awt.Point;
+
+import javax.swing.JFrame;
+
+public class GuiTest extends JFrame{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8127628290181568377L;
+	public GuiTest(){
+		super("ModMaker");
+		this.setSize(100,100);
+		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setVisible(true);
+
+	}
+
+}

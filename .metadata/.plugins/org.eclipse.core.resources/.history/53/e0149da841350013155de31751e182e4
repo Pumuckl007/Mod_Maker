@@ -1,0 +1,7 @@
+package modmaker.gui;
+
+import javax.swing.JFrame;
+
+public class GuiTest extends JFrame{
+
+}

@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.zip.ZipFile;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -76,7 +75,7 @@ public class Gui {
 		layout.putConstraint(SpringLayout.EAST, sliderAndButtons,0,SpringLayout.EAST, frame.getContentPane());
 		layout.putConstraint(SpringLayout.SOUTH, sliderAndButtons,25,SpringLayout.SOUTH, toolBar);
 		layout.putConstraint(SpringLayout.WEST, sliderAndButtons,0,SpringLayout.WEST, frame.getContentPane());
-		
+
 		items = new ItemTableModle();
 		Object[][] stringItems = new Object[Start.main.mod.items.size()][5];
 		int i = 0;
@@ -88,10 +87,10 @@ public class Gui {
 		JXTable modStuffTable = new JXTable(items);
 		modStuffTable.getColumn("Edit").setCellRenderer(new ButtonRenderer());
 		modStuffTable.getColumn("Edit").setCellEditor(
-	        new ButtonEditor(new JCheckBox()));
+				new ButtonEditor(new JCheckBox()));
 		modStuffTable.getColumn("Delete").setCellRenderer(new ButtonRenderer());
 		modStuffTable.getColumn("Delete").setCellEditor(
-	        new ButtonEditor(new JCheckBox()));
+				new ButtonEditor(new JCheckBox()));
 		modStuffTable.setAutoCreateRowSorter(true);
 		modStuffTable.toggleSortOrder(1);
 		modStuffTable.setSortable(false);
@@ -104,7 +103,7 @@ public class Gui {
 
 		Gui.stardardLookAndFeel(frame);
 
-		frame.setSize(800, 600);
+		frame.setSize(1120, 840);
 		frame.setLocationRelativeTo(null);
 		//5. Show it.
 		frame.setVisible(true);
@@ -140,7 +139,8 @@ Display.destroy();
 		try{ 
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
-			SwingUtilities.updateComponentTreeUI(frame);
+			if(frame != null)
+				SwingUtilities.updateComponentTreeUI(frame);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -167,7 +167,7 @@ Display.destroy();
 					JFileChooser fc = new JFileChooser();
 					int returnval = fc.showSaveDialog(Start.gui.frame);
 					if(returnval == JFileChooser.APPROVE_OPTION && fc.getSelectedFile() != null){
-							SaveSlashLoad.save(Start.main.mod, new File(fc.getSelectedFile().getAbsolutePath() + "/"));
+						SaveSlashLoad.save(Start.main.mod, new File(fc.getSelectedFile().getAbsolutePath() + "/"));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -193,11 +193,11 @@ Display.destroy();
 					public String getDescription() {
 						return "ModMaker files (.mcm)";
 					}
-					
+
 				});
 				int returnval = fc.showOpenDialog(Start.gui.frame);
 				if(returnval == JFileChooser.APPROVE_OPTION && fc.getSelectedFile() != null){
-						SaveSlashLoad.load(fc.getSelectedFile());
+					SaveSlashLoad.load(fc.getSelectedFile());
 				}
 			}
 

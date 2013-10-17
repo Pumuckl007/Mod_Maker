@@ -1,0 +1,4 @@
+package modmaker.gui;
+
+public interface Screen {
+}

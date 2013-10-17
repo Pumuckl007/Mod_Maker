@@ -1,0 +1,13 @@
+package modmaker.gui;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JPanel;
+
+public class Renderer {
+	private HashMap<String, ArrayList<JPanel>> screens = new HashMap<Screen, ArrayList<JPanel>>();
+	public void addScreen(String screen, ArrayList<JPanel> elements){
+		this.screens.put(screen, elements);
+	}
+}

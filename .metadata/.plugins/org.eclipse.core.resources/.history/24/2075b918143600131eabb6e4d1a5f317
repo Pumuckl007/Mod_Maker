@@ -1,0 +1,12 @@
+package modmaker.gui;
+
+import javax.swing.JDialog;
+
+public class OpenGuiNodeEdit extends JDialog{
+	public OpenGuiNodeEdit(){
+		
+	}
+	public static OpenGuiNodeEdit opengui(){
+		return new OpenGuiNodeEdit();
+	}
+}

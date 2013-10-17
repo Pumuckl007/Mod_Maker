@@ -69,7 +69,7 @@ public class DialogModInfoGui extends JDialog implements ActionListener, ChangeL
 		exportSource.addChangeListener(this);
 		layout.putConstraint(SpringLayout.NORTH, exportSource,20,SpringLayout.NORTH, this.getContentPane());
 		layout.putConstraint(SpringLayout.EAST, exportSource,-20,SpringLayout.EAST, this.getContentPane());
-
+		doneButton.setEnabled(!name.equals(""));
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(Start.gui.frame);
 		this.setVisible(true);

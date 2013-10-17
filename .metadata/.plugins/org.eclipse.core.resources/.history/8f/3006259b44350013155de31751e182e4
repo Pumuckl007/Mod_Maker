@@ -1,0 +1,16 @@
+package modmaker.gui;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+
+public class Renderer {
+	private HashMap<String, ArrayList<JComponent>> screens = new HashMap<String, ArrayList<JComponent>>();
+	public void addScreen(String screen, ArrayList<JComponent> elements){
+		this.screens.put(screen, elements);
+		ArrayList<JComponent> list = new ArrayList<JComponent>();
+		list.add(new JButton());
+	}
+}

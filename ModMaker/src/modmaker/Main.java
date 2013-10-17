@@ -11,7 +11,7 @@ public class Main {
 	public Main(){
 		workingDir = new File(System.getProperty("user.home") + "/.modmaker/");
 		workingDir.mkdirs();
-		mod = new Mod("NOTDEF","","",true);
+		mod = new Mod("NOTDEF","","",true, true);
 		Collections.sort(mod.items, new itemSort());
 		File f = new File(System.getProperty("user.home") + "/.modmaker/");
 		f.mkdir();

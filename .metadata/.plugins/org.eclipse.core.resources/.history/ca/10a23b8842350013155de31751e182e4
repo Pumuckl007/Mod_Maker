@@ -1,0 +1,59 @@
+package modmaker.gui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class GuiTest extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8127628290181568377L;
+	public GuiTest(){
+		super("ModMaker");
+		this.setSize(100,100);
+		JButton button1 = new JButton("Button 1");
+		button1.addActionListener(this);
+		this.add(button1);
+		JButton b2 = new JButton("Other Button");
+		b2.addActionListener(new b2list());
+		this.add(b2);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+
+	}
+	private class b2list implements ActionListener{
+
+		JButton b1;
+		JButton b2;
+		public b2list(JButton b1, JButton b2){
+			this.b1 = b1;
+			this.b2 = b2;
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			b1.setVisible(false);
+			b2.setVisible(true);
+		}
+		
+	}
+	private class b1list implements ActionListener{
+
+		JButton b1;
+		JButton b2;
+		public b1list(JButton b1, JButton b2){
+			this.b1 = b1;
+			this.b2 = b2;
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			b1.setVisible(true);
+			b2.setVisible(false);
+		}
+		
+	}
+
+}
