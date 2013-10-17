@@ -21,7 +21,7 @@ public class GuiNodeEdit extends JDialog{
 		this.initGui();
 		setLocation(p.x,p.y);
 		this.setSize(parent.getParent().getSize());
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 	public void initGui(){

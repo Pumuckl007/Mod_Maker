@@ -14,7 +14,7 @@ public class NodeDisplay extends JComponent {
 	private static final long serialVersionUID = 5638329437068814437L;
 	public ArrayList<Node> nodes = new ArrayList<Node>();
 	public NodeDisplay(){
-		nodes.add(new Node("test", 100, 100, 150, 500, Color.darkGray));
+		nodes.add(new Node("test", 100, 100));
 	}
 
 	@Override
@@ -48,8 +48,7 @@ public class NodeDisplay extends JComponent {
 		}
 		public void paint(Graphics g){
 			g.setColor(this.color);
-			g.fillArc(x, y, width, 10, 0, 90);
-			g.fillRect(x + 10, y, this.width, this.hight - 10);
+			g.fill3DRect(x + 20, y, 100, 710, true);
 		}
 	}
 	

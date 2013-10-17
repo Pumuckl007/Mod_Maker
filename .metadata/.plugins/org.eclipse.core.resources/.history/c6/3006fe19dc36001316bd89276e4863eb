@@ -48,7 +48,6 @@ public class NodeDisplay extends JComponent {
 		}
 		public void paint(Graphics g){
 			g.setColor(this.color);
-			g.fillArc(x, y, width, 10, 0, 90);
 			g.fillRect(x + 10, y, this.width, this.hight - 10);
 		}
 	}
