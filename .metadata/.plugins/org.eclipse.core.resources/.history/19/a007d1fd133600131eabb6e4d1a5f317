@@ -1,7 +1,0 @@
-package modmaker.gui;
-
-public class OpenGuiNodeEdit {
-	public static OpenGuiNodeEdit opengui(){
-		return new OpenGuiNodeEdit();
-	}
-}

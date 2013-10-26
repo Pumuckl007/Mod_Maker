@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
 import modmaker.Item;
+import modmaker.ItemType;
 import modmaker.Start;
 import modmaker.export.Export;
 import modmaker.export.SaveSlashLoad;
@@ -52,7 +53,9 @@ public class Gui {
 		addBlock.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Added a Block");
+				Item item = new Item("Undifind", ItemType.Block);
+				Start.gui.items.addRow(item.getItemForTable());
+				Start.main.mod.items.add(item);
 			}
 
 		});
@@ -64,7 +67,7 @@ public class Gui {
 		addItem.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Item item = new Item("Undifind");
+				Item item = new Item("Undifind", ItemType.Item);
 				Start.gui.items.addRow(item.getItemForTable());
 				Start.main.mod.items.add(item);
 			}

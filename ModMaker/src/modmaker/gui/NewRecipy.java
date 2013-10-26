@@ -29,7 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpringLayout;
 
-import modmaker.Start;
+import modmaker.Mod;
 
 import org.jdesktop.swingx.JXList;
 
@@ -79,9 +79,9 @@ public class NewRecipy extends JDialog implements ActionListener, DragSourceList
 	}
 	public JScrollPane drawTable(){
 		ds = new DragSource();
-		String[] itemNames = new String[Start.main.mod.vannilaItems.size()];
+		String[] itemNames = new String[Mod.vannilaItems.size()];
 		int i = 0;
-		for(String name : Start.main.mod.vannilaItems){
+		for(String name : Mod.vannilaItems){
 			itemNames[i] = name;
 			i++;
 		}
@@ -216,12 +216,12 @@ public class NewRecipy extends JDialog implements ActionListener, DragSourceList
 		@Override
 		public void drop(DropTargetDropEvent dtde) {
 			try {
-				ImageIcon icon = new ImageIcon(Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getImage());
+				ImageIcon icon = Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getImageIcon();
 				this.button.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int)58, (int)58, Image.SCALE_DEFAULT)));
-				this.button.setItem(Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName());
-				this.button.setToolTipText(Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName() + " (" +
-						Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getId().toString() + ":" + 
-						Start.main.mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getMetadat().toString() + ")");
+				this.button.setItem(Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName());
+				this.button.setToolTipText(Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName() + " (" +
+						Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getId().toString() + ":" + 
+						Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getMetadat().toString() + ")");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

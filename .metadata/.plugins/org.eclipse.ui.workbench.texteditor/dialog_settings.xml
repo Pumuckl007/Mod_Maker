@@ -13,26 +13,26 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="FileUtils.file(" key="selection"/>
+		<item value="FileUtils.getWorkingDirectory().getAbsolutePath() + &quot;/" key="selection"/>
 		<list key="findhistory">
-			<item value="new File("/>
-			<item value="new File"/>
-			<item value="frame"/>
-			<item value="oldMod"/>
-			<item value="mod"/>
-			<item value="/"/>
-			<item value="fromJson("/>
-			<item value="fromJ"/>
+			<item value="FileUtils.getWorkingDirectory().getAbsolutePath() + &quot;"/>
+			<item value="System.getProperty(&quot;user.home&quot;) + &quot;/.modmaker/"/>
+			<item value="FileUtils.getWor"/>
+			<item value="point."/>
+			<item value="radius"/>
+			<item value="Color.black"/>
+			<item value=", Color.gray"/>
+			<item value="DEFAULT_CURSOR"/>
 		</list>
 		<list key="replacehistory">
+			<item value="FileUtils.getWorkingDirectory().getAbsolutePath() + &quot;/"/>
+			<item value="FileUtils.getWorkingDirectory().getAbsolutePath() + &quot;"/>
+			<item value=""/>
+			<item value="(radius-1)"/>
+			<item value="Color.gray"/>
+			<item value="E_RESIZE_CURSOR"/>
 			<item value="FileUtils.file("/>
 			<item value="FileUtils.file"/>
-			<item value="this"/>
-			<item value="Start.main.mod"/>
-			<item value="Start.gui.modInfo"/>
-			<item value=""/>
-			<item value="RecipyButton()"/>
-			<item value="RecipyButton"/>
 		</list>
 	</section>
 </section>

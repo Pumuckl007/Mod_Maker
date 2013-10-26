@@ -1,9 +1,0 @@
-package modmaker.gui;
-
-import javax.swing.JComponent;
-
-public class NodeDisplay extends JComponent {
-	public NodeDisplay(){
-		
-	}
-}

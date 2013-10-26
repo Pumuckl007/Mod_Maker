@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/slick-util.jar" sourcepath="/home/max/src/ModMaker/lib/slick-util-src.zip"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/lzma.jar"/>
 	<classpathentry kind="lib" path="/home/max/src/ModMaker/lib/lwjgl_util_applet.jar"/>
