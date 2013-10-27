@@ -110,7 +110,7 @@ public class FileUtils {
 	    case 3: 
 	      String applicationData = System.getenv("APPDATA");
 	      String folder = applicationData != null ? applicationData : userHome;
-	      
+	      System.out.println(System.getenv("APPDATA"));
 	      workingDirectory = new File(folder, ".modmaker/");
 	      break;
 	    case 4: 

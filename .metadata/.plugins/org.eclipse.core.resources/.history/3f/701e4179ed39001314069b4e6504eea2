@@ -1,0 +1,5 @@
+package modmaker.gui.nodes;
+
+public class Link {
+
+}

@@ -1,0 +1,30 @@
+body {
+	font-family: "Ubuntu" sans-serif;
+	background: #dedede; /* Old browsers */
+	background: -moz-linear-gradient(top, #dedede 20%, #e0f0f0 100%); /* FF3.6+ */
+	background: -webkit-linear-gradient(top, #dedede 20%,#f0f0f0 100%); /* Chrome10+,Safari5.1+ */
+	background: -ms-linear-gradient(top, #dedede 20%,#f0f0f0 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #dedede 20%,#f0f0f0 100%); /* W3C */
+}
+p {
+	color:black;
+}
+h2.header {
+	color : blue;
+	background: #f6e6b4; /* Old browsers */
+	background: -moz-linear-gradient(top, #f6e6b4 0%, #ed9017 100%); /* FF3.6+ */
+	background: -webkit-linear-gradient(top, #f6e6b4 0%,#ed9017 100%); /* Chrome10+,Safari5.1+ */
+	background: -ms-linear-gradient(top, #f6e6b4 0%,#ed9017 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #f6e6b4 0%,#ed9017 100%); /* W3C */
+	border-radius: 10px;
+	font-size: 350%;
+}
+button {
+	border-radius: 10px;
+}
+.menubar {
+	background-color: blue;
+	border-radius: 0 0 5px 5px;
+	padding: 0.5em 0 0.5em 0;
+	margin-bottom: 2em;
+}

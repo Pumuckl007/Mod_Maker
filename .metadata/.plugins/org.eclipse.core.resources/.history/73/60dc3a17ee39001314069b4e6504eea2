@@ -1,0 +1,24 @@
+package modmaker.gui.nodes;
+
+import java.awt.Point;
+
+public class Link {
+	private NodePort port;
+	private int x,y;
+	public Link(NodePort port){
+		this.port = port;
+	}
+	public NodePort getPort(){
+		return this.port;
+	}
+	public void setPoint(Point point){
+		this.setPoint(point.x, point.y);
+	}
+	public void setPoint(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	public void getPoint(){
+		return new Point(x,y);
+	}
+}
