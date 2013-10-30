@@ -1,0 +1,7 @@
+package modmaker.gui;
+
+import javax.swing.JButton;
+
+public class LWJGLButton extends JButton{
+
+}

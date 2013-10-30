@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.Collections"/>
-<fullyQualifiedTypeName name="java.io.FileWriter"/>
-<fullyQualifiedTypeName name="modmaker.Start"/>
-<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
-<fullyQualifiedTypeName name="modmaker.export.SaveSlashLoad"/>
-<fullyQualifiedTypeName name="com.google.gson.Gson"/>
-<fullyQualifiedTypeName name="java.io.FileReader"/>
-<fullyQualifiedTypeName name="org.omg.CORBA.portable.InputStream"/>
-<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
-<fullyQualifiedTypeName name="java.lang.reflect.Type"/>
 <fullyQualifiedTypeName name="com.google.gson.reflect.TypeToken"/>
 <fullyQualifiedTypeName name="javax.swing.filechooser.FileFilter"/>
 <fullyQualifiedTypeName name="java.util.zip.ZipFile"/>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
 <fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
 <fullyQualifiedTypeName name="java.io.File"/>
@@ -32,7 +21,6 @@
 <fullyQualifiedTypeName name="javax.swing.JMenuItem"/>
 <fullyQualifiedTypeName name="javax.swing.JPopupMenu"/>
 <fullyQualifiedTypeName name="javax.swing.border.BevelBorder"/>
-<fullyQualifiedTypeName name="javax.swing.JButton"/>
 <fullyQualifiedTypeName name="javax.swing.JScrollPane"/>
 <fullyQualifiedTypeName name="javax.swing.SpringLayout"/>
 <fullyQualifiedTypeName name="modmaker.gui.nodes.Node"/>
@@ -40,12 +28,9 @@
 <fullyQualifiedTypeName name="java.awt.GradientPaint"/>
 <fullyQualifiedTypeName name="java.awt.Point"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="modmaker.Mod"/>
 <fullyQualifiedTypeName name="modmaker.ItemType"/>
-<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
-<fullyQualifiedTypeName name="java.awt.Graphics"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.DisplayMode"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.Display"/>
@@ -54,10 +39,25 @@
 <fullyQualifiedTypeName name="org.newdawn.slick.opengl.TextureLoader"/>
 <fullyQualifiedTypeName name="org.newdawn.slick.opengl.Texture"/>
 <fullyQualifiedTypeName name="org.newdawn.slick.Color"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="org.lwjgl.util.glu.GLU"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.Pbuffer"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.PixelFormat"/>
 <fullyQualifiedTypeName name="modmaker.export.FileUtils"/>
 <fullyQualifiedTypeName name="modmaker.export.FileUtils.OS"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.awt.Graphics"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GLContext"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL41"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL21"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.ARBDepthClamp"/>
+<fullyQualifiedTypeName name="org.lwjgl.input.Keyboard"/>
+<fullyQualifiedTypeName name="java.nio.FloatBuffer"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="javax.swing.JButton"/>
 </qualifiedTypeNameHistroy>

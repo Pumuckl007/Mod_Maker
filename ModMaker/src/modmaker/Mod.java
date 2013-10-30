@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -17,6 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import modmaker.export.FileUtils;
@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 public class Mod {
 	public static ArrayList<String> vannilaItems = new ArrayList<String>();
 	public static HashMap<String, Item> vannilaItemLookUp = new HashMap<String, Item>();
+	public static HashMap<String, HashMap<String, ImageIcon>> images = new HashMap<String, HashMap<String, ImageIcon>>();
 	private ZipFile minecraftJar;
 	private Enumeration<? extends ZipEntry> entries;
 	private String minecraftVerstion = "1.6.4";
@@ -50,29 +51,26 @@ public class Mod {
 		if(init){
 			File minecraft = FileUtils.file(FileUtils.getMinecraftDirectory().getAbsolutePath() + "/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
 			System.out.println("Minecraft Directory: " + minecraft.getAbsolutePath());
-			File blocks = FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/blocks/");
-			blocks.mkdirs();
-			File items = FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/items/");
-			items.mkdirs();
 			if(minecraft.exists()){
-				this.initfiles(blocks, items);
+				this.initfiles();
+				this.initImages();
 				try {
-					BufferedReader itemreader = new BufferedReader(new FileReader(FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/items/items.txt")));
+					BufferedReader itemreader = new BufferedReader(new FileReader(FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/items.txt")));
 					String line;
 					while((line = itemreader.readLine()) != null){
 						Item item = new Item(line.split(" ")[1].replace("_", " "), ItemType.Item);
 						item.setId(Integer.parseInt(line.split(" ")[0].split(":")[0]));
 						if(line.contains(":"))
 							item.setMetadat(Integer.parseInt(line.split(" ")[0].split(":")[1]));
-						item.setImageFile(FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/items/" + line.split(" ")[2] + ".png"));
+						item.setImage(images.get("Items").get(line.split(" ")[2] + ".png"));
 						Mod.vannilaItemLookUp.put(item.getName(), item);
 						Mod.vannilaItems.add(item.getName());
 					}
 					itemreader.close();
-					for(File file : new File(FileUtils.getWorkingDirectory(), "/blocks").listFiles()){
-						Item item = new Item(file.getName() , ItemType.Block);
+					for(String itemname : images.get("Blocks").keySet()){
+						Item item = new Item(itemname , ItemType.Block);
 						item.setId(0);
-						item.setImageFile(file);
+						item.setImage(images.get("Blocks").get(itemname));
 						Mod.vannilaItemLookUp.put(item.getName(), item);
 						Mod.vannilaItems.add(item.getName());
 					}
@@ -85,6 +83,41 @@ public class Mod {
 				JOptionPane.showMessageDialog(null, "No Minecraft install found\n" + FileUtils.getMinecraftDirectory().getAbsolutePath() + "\n" + FileUtils.getPlatform(), "Eorror", JOptionPane.ERROR_MESSAGE);
 				System.exit(-1);
 			}
+		}
+	}
+	public void initImages(){
+		try {
+			minecraftJar = new ZipFile(System.getProperty("user.home") + "/.minecraft/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		entries = minecraftJar.entries();
+		HashMap<String, ImageIcon> itemimages = new HashMap<String, ImageIcon>();
+		HashMap<String, ImageIcon> blockimages = new HashMap<String, ImageIcon>();
+		while(entries.hasMoreElements()){
+			ZipEntry zipEntry = entries.nextElement();
+			if(zipEntry.getName().contains("/textures/blocks/") && !zipEntry.getName().contains("mcmeta")){
+				try {
+					BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
+					BufferedImage image = ImageIO.read(pngZipedFile);
+					blockimages.put(zipEntry.getName().replace("assets/minecraft/textures/blocks/", ""), new ImageIcon(image));
+					pngZipedFile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(zipEntry.getName().contains("/textures/items/") && !zipEntry.getName().contains("mcmeta")){
+				try {
+					BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
+					BufferedImage image = ImageIO.read(pngZipedFile);
+					itemimages.put(zipEntry.getName().replace("assets/minecraft/textures/items/", ""), new ImageIcon(image));
+					pngZipedFile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			images.put("Items", itemimages);
+			images.put("Blocks", blockimages);
 		}
 	}
 	//	StringBuilder builder = new StringBuilder();
@@ -107,78 +140,24 @@ public class Mod {
 	//		builder.append("1 " + item + "\n");
 	//	}
 	//	System.out.println(builder.toString());
-	private void initfiles(File blocks, File items){
-		File minecraftVerstionFile = FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/minecraftV" + this.minecraftVerstion + ((Boolean)Main.hasMcpPremistion).toString() + "/");
+	private void initfiles(){
+		File minecraftVerstionFile = FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/minecraftV" + this.minecraftVerstion + ((Boolean)Main.hasMcpPremistion).toString() + Main.version + "/");
 		if(!minecraftVerstionFile.exists()){
 			InitFiles init = new InitFiles();
 			Thread thread = new Thread(init);
 			thread.start();
-			init.setProgress(0, "Removing Old Files");
-			for(java.io.File file : blocks.listFiles()){
-				file.delete();
-			}
-			for(java.io.File file : items.listFiles()){
-				file.delete();
-			}
 			File minecraftForgeFile = FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/MinecraftForge/");
 			minecraftForgeFile.mkdir();
 			for(java.io.File file : minecraftForgeFile.listFiles()){
 				file.delete();
 			}
 			init.setProgress(50, "Extracting Files");
-			blocks.mkdir();
-			items.mkdir();
 			for(java.io.File file : FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/").listFiles()){
 				if(file.getName().contains("minecraftV")){
 					file.delete();
 				}
 			}
-			try {
-				minecraftJar = new ZipFile(System.getProperty("user.home") + "/.minecraft/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			entries = minecraftJar.entries();
-			int i = 0;
-			boolean extracted = false;
-			while(entries.hasMoreElements()){
-				ZipEntry zipEntry = entries.nextElement();
-				if(zipEntry.getName().contains("/textures/blocks/") && !zipEntry.getName().contains("mcmeta")){
-					if(!FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/blocks/" + zipEntry.getName().replace("assets/minecraft/textures/blocks/", "")).exists()){
-						try {
-							BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
-							BufferedImage image = ImageIO.read(pngZipedFile);
-							OutputStream outStream = new FileOutputStream(FileUtils.getWorkingDirectory().getAbsolutePath() + "/blocks/" + zipEntry.getName().replace("assets/minecraft/textures/blocks/", ""));
-							ImageIO.write(image, "png", outStream);
-							pngZipedFile.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					extracted = true;
-				}
-				if(zipEntry.getName().contains("/textures/items/") && !zipEntry.getName().contains("mcmeta")){
-					if(!FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/items/" + zipEntry.getName().replace("assets/minecraft/textures/items/", "")).exists()){
-						try {
-							BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
-							BufferedImage image = ImageIO.read(pngZipedFile);
-							OutputStream outStream = new FileOutputStream(FileUtils.getWorkingDirectory().getAbsolutePath() + "/items/" + zipEntry.getName().replace("assets/minecraft/textures/items/", ""));
-							ImageIO.write(image, "png", outStream);
-							pngZipedFile.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					extracted = true;
-				}
-				if(extracted){
-					init.setProgress(50 +(int)(i*0.5), "Extracting File: " + zipEntry.getName());
-					i++;
-				}
-				else
-					init.setProgress(50 + (int)(i*0.5), "Extracting Files");
-				extracted = false;
-			}
+
 			this.download(init);
 			ZipFile minecraftForge = null;
 			try {
@@ -187,8 +166,7 @@ public class Mod {
 				e.printStackTrace();
 			}
 			Enumeration<? extends ZipEntry> mFEntries = minecraftForge.entries();
-			i = 0;
-			extracted = false;
+			int i = 0;
 			while(mFEntries.hasMoreElements()){
 				ZipEntry zipEntry = mFEntries.nextElement();
 				init.setProgress(480 +(int)(i*0.2), "Extracting File: " + zipEntry.getName() + " (" + ((Long)zipEntry.getSize()).toString() + ")");
@@ -261,7 +239,7 @@ public class Mod {
 	private void download(InitFiles init){
 		init.setProgress(400, "Downloading ItemRefences");
 		String idUrl = "https://raw.github.com/Pumuckl007/Mod_Maker/master/downloadables/Items.txt";
-		FileUtils.downloadFile(idUrl, FileUtils.getWorkingDirectory().getAbsolutePath() + "/items/items.txt");
+		FileUtils.downloadFile(idUrl, FileUtils.getWorkingDirectory().getAbsolutePath() + "/items.txt");
 		init.setProgress(410, "Downloading SwingX Licence");
 		String swingxLicens = "https://raw.github.com/Pumuckl007/Mod_Maker/master/SwingX_lisence.txt";
 		FileUtils.downloadFile(swingxLicens, FileUtils.getWorkingDirectory().getAbsolutePath() + "/SwingX_lisence.txt");

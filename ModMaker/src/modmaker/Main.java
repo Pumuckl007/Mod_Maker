@@ -8,6 +8,7 @@ import modmaker.export.FileUtils;
 
 public class Main {
 	public Mod mod;
+	public static final double version = 0.01;
 	public File workingDir;
 	public static final boolean hasMcpPremistion = false;
 	public Main(){

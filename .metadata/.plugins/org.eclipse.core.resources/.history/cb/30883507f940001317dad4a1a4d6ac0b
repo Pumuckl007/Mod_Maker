@@ -1,0 +1,38 @@
+package modmaker;
+import java.awt.*;
+import javax.swing.*;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
+import org.lwjgl.opengl.*;
+
+public class DisplayTest extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8775371561879791929L;
+
+	public static void main(String[] args) throws LWJGLException, InterruptedException {
+		System.out.println("LWJGL Version: "+Sys.getVersion());
+		
+		DisplayTest test = new DisplayTest();
+		test.setVisible(true);
+		Display.setParent(test.c);
+		Display.create();		
+		
+		while (true) {
+			Display.swapBuffers();
+			Thread.sleep(100);
+		}
+	}
+	
+	Canvas c;
+	
+	public DisplayTest() {
+		c = new Canvas();
+		c.setBackground(Color.blue);
+		c.setSize(new Dimension(640,480));
+		add(c);
+		this.pack();
+	}
+}

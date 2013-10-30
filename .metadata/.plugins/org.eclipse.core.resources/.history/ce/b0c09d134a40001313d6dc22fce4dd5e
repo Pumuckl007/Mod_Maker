@@ -1,0 +1,17 @@
+package modmaker;
+
+import modmaker.gui.Gui;
+
+
+
+public class Start {
+	public static Gui gui;
+	public static Main main;
+	public static void main(String[] args){
+		int bv1 = Integer.parseInt("10110001", 2);
+		int bv2 = Integer.parseInt("1", 2);
+		System.out.println(Integer.toBinaryString(Integer.rotateLeft(bv1, bv2)));
+//		main = new Main();
+//		gui = new Gui();
+	}
+}
