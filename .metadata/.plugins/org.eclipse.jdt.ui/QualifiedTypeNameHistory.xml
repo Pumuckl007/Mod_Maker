@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.google.gson.reflect.TypeToken"/>
-<fullyQualifiedTypeName name="javax.swing.filechooser.FileFilter"/>
-<fullyQualifiedTypeName name="java.util.zip.ZipFile"/>
-<fullyQualifiedTypeName name="java.util.regex.Pattern"/>
-<fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
-<fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="modmaker.export.File"/>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-<fullyQualifiedTypeName name="java.awt.FlowLayout"/>
-<fullyQualifiedTypeName name="modmaker.gui.GuiTest"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="modmaker.gui.Gui"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
@@ -28,12 +18,9 @@
 <fullyQualifiedTypeName name="java.awt.GradientPaint"/>
 <fullyQualifiedTypeName name="java.awt.Point"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="modmaker.Mod"/>
-<fullyQualifiedTypeName name="modmaker.ItemType"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.DisplayMode"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.Display"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="org.newdawn.slick.opengl.TextureLoader"/>
@@ -46,10 +33,8 @@
 <fullyQualifiedTypeName name="modmaker.export.FileUtils.OS"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
-<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.awt.Graphics"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GLContext"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL41"/>
@@ -60,4 +45,19 @@
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL11"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="javax.swing.JButton"/>
+<fullyQualifiedTypeName name="org.bridj.AbstractBridJRuntime"/>
+<fullyQualifiedTypeName name="org.bridj.cpp.com.shell.ITaskbarList3"/>
+<fullyQualifiedTypeName name="modmaker.gui.ImageShaders"/>
+<fullyQualifiedTypeName name="modmaker.file.FileUtils.OS"/>
+<fullyQualifiedTypeName name="modmaker.file.FileUtils"/>
+<fullyQualifiedTypeName name="modmaker.Item"/>
+<fullyQualifiedTypeName name="modmaker.ItemType"/>
+<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.Display"/>
+<fullyQualifiedTypeName name="java.awt.Canvas"/>
+<fullyQualifiedTypeName name="modmaker.gui.GLTask"/>
+<fullyQualifiedTypeName name="java.util.concurrent.atomic.AtomicBoolean"/>
+<fullyQualifiedTypeName name="modmaker.gui.GLThread"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>

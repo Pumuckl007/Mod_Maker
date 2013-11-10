@@ -4,11 +4,11 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 
-import modmaker.export.FileUtils;
+import modmaker.file.FileUtils;
 
 public class Main {
 	public Mod mod;
-	public static final double version = 0.01;
+	public static final double version = 0.02;
 	public File workingDir;
 	public static final boolean hasMcpPremistion = false;
 	public Main(){

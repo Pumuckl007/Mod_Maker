@@ -12,7 +12,6 @@ public class Start {
 	public static Gui gui;
 	public static Main main;
 	public static void main(String[] args) throws LWJGLException, InterruptedException, IOException{
-//		DisplayTest.main(args);
 		main = new Main();
 		gui = new Gui();
 	}

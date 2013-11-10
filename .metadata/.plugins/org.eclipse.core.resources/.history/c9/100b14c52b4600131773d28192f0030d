@@ -1,0 +1,37 @@
+package modmaker.gui;
+
+import java.awt.Canvas;
+
+public class GLThread implements Runnable{
+	private static Thread glThread;
+	private static GLThread instance;
+	private Canvas glCanvas;
+	public GLThread(Canvas c){
+		new Thread(new StartThread()).start();
+		this.glCanvas = c;
+	}
+	public static GLThread instance(){
+		return instance;
+	}
+	private class StartThread implements Runnable{
+		
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			instance = GLThread.this;
+			glThread = new Thread(GLThread.this);
+			glThread.start();
+			
+		}
+		
+	}
+	
+	@Override
+	public void run() {
+		
+	}
+}

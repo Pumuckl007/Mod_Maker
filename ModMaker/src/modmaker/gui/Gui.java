@@ -1,11 +1,13 @@
 package modmaker.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -20,8 +22,9 @@ import javax.swing.filechooser.FileFilter;
 import modmaker.Item;
 import modmaker.ItemType;
 import modmaker.Start;
-import modmaker.export.Export;
-import modmaker.export.SaveSlashLoad;
+import modmaker.file.Export;
+import modmaker.file.FileUtils;
+import modmaker.file.SaveSlashLoad;
 
 import org.jdesktop.swingx.JXTable;
 
@@ -29,11 +32,18 @@ public class Gui {
 	public JFrame frame;
 	public boolean buttonPushed;
 	public ItemTableModle items;
+	private Canvas glCanvas;
 	public Gui(){
 		SpringLayout layout = new SpringLayout();
 		frame = new JFrame("Mod Maker");
 		frame.setLayout(layout);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		glCanvas = new Canvas();
+		frame.add(glCanvas);
+		layout.putConstraint(SpringLayout.WEST, glCanvas,0,SpringLayout.WEST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, glCanvas,122,SpringLayout.EAST, frame.getContentPane());
+		layout.putConstraint(SpringLayout.NORTH, glCanvas,122,SpringLayout.SOUTH, frame.getContentPane());
+		layout.putConstraint(SpringLayout.NORTH, glCanvas,0,SpringLayout.NORTH, frame.getContentPane());
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		Gui.initButtons(toolBar);
@@ -103,47 +113,37 @@ public class Gui {
 		layout.putConstraint(SpringLayout.EAST, modStuff,0,SpringLayout.EAST, frame.getContentPane());
 		layout.putConstraint(SpringLayout.SOUTH, modStuff,0,SpringLayout.SOUTH, frame.getContentPane());
 		layout.putConstraint(SpringLayout.WEST, modStuff,0,SpringLayout.WEST, frame.getContentPane());
-
+		
 		Gui.stardardLookAndFeel(frame);
-
-		frame.setSize(1120, 840);
+		
+		frame.setSize(1120, 600);
 		frame.setLocationRelativeTo(null);
-		//5. Show it.
+		new Thread(new StartGLThread()).start();
+
 		frame.setVisible(true);
 
 	}
-	/**					try {
-	int hight = 800;
-	if(args.length > 0){
-		hight = new Integer(args[0]);
+	private class StartGLThread implements Runnable {
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(100);
+				new GLThread(glCanvas);
+			} catch (Exception e) {
+			}
+			
+			
+		}
 	}
-	Display.setDisplayMode(new DisplayMode((hight/2)*3, hight));
-	Display.setTitle("Mod Maker");
-	Display.create();
-	GL11.glOrtho(0, 1200, 800, 0, -1, 1);
-	File f = new File(System.getProperty("user.dir"));
-	System.out.println(System.getProperty("user.dir"));
-	System.out.println(f.getAbsolutePath());
-	Gui gui = new Gui();
-	while(!Display.isCloseRequested()){
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		GL11.glClearColor(255, 255, 255, 255);
-		gui.render();
-		Display.sync(60);
-		Display.update();
-	}
-} catch (LWJGLException e) {
-	e.printStackTrace();
-}
-Display.destroy();
-	 */
+	
 	public static void stardardLookAndFeel(JFrame frame){
 		try{ 
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
-			if(frame != null)
+			if(frame != null){
 				SwingUtilities.updateComponentTreeUI(frame);
+				frame.setIconImage(new ImageIcon(FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/Logo.png").getAbsolutePath()).getImage());
+			}
 		}
 		catch(Exception e){
 			e.printStackTrace();

@@ -1,0 +1,5 @@
+package modmaker.gui;
+
+public interface GLTask {
+	public Object[] runTask();
+}

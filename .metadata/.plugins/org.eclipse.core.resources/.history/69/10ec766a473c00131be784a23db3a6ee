@@ -1,7 +1,0 @@
-package modmaker;
-
-public enum ItemTypes {
-	Item,
-	Block,
-	Entity;
-}

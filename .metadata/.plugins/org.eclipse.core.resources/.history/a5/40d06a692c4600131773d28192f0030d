@@ -1,0 +1,48 @@
+package modmaker.gui;
+
+import java.awt.Canvas;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class GLThread implements Runnable{
+	private static Thread glThread;
+	private static GLThread instance;
+	private Canvas glCanvas;
+	private ArrayList<GLTask> tasks = new ArrayList<GLTask>();
+	public static AtomicBoolean stop = new AtomicBoolean(false);
+	public GLThread(Canvas c){
+		new Thread(new StartThread()).start();
+		this.glCanvas = c;
+	}
+	public static GLThread instance(){
+		return instance;
+	}
+	private class StartThread implements Runnable{
+		
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			instance = GLThread.this;
+			glThread = new Thread(GLThread.this);
+			glThread.start();
+			
+		}
+		
+	}
+	public static void addTask(GLTask task){
+		GLThread.instance().tasks.add(task);
+	}
+	@Override
+	public void run() {
+		while(!stop.get()){
+			if(tasks.size() > 0){
+				GLTask task = tasks.get(0);
+				task.getReCall().returnCall(task.runTask(glCanvas));
+			}
+		}
+	}
+}

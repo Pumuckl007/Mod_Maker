@@ -1,56 +1,29 @@
 package modmaker.gui;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
-import javax.swing.SpringLayout;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class InitFiles extends JFrame implements Runnable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5516752214838397866L;
-	public JProgressBar progressBar;
-	public JLabel label;
-	public SpringLayout manager;
-	public boolean done = false;
-	public InitFiles(){
-		this.manager = new SpringLayout();
-		this.setLayout(manager);
-		this.setSize(800,200);
-		this.setLocationRelativeTo(null);
-		this.addGui();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
-	private void addGui(){
-		this.progressBar = new JProgressBar();
-		this.progressBar.setMinimum(0);
-		this.progressBar.setMaximum(1000);
-		this.add(progressBar);
-		manager.putConstraint(SpringLayout.NORTH, this.progressBar, -30, SpringLayout.VERTICAL_CENTER, this.getContentPane());
-		manager.putConstraint(SpringLayout.WEST, this.progressBar, 20, SpringLayout.WEST, this.getContentPane());
-		manager.putConstraint(SpringLayout.SOUTH, this.progressBar, -10, SpringLayout.VERTICAL_CENTER, this.getContentPane());
-		manager.putConstraint(SpringLayout.EAST, this.progressBar, -20, SpringLayout.EAST, this.getContentPane());
-		this.label = new JLabel();
-		this.label.setText("Initialzising");
-		this.add(label);
-		manager.putConstraint(SpringLayout.NORTH, this.label, 20, SpringLayout.SOUTH, this.progressBar);
-		manager.putConstraint(SpringLayout.WEST, this.label, 20, SpringLayout.WEST, this.getContentPane());
-	}
+public class InitFiles implements Runnable {
+	public AtomicBoolean done = new AtomicBoolean(false);
+	public static final int lenght = 1000;
+	public InitFilesWindow window = new InitFilesWindow();
 	public void setProgress(int progress, String lable){
-		this.progressBar.setValue(progress);
-		this.label.setText(lable);
+		window.setProgress(progress, lable);
+	}
+	public void setProgressBarVisible(boolean visible){
+		window.setProgressBarVisible(visible);
+	}
+	public void setDimentions(int x , int y){
+		window.setSize(x, y);
+		window.setLocationRelativeTo(null);
 	}
 	@Override
 	public void run() {
-		Gui.stardardLookAndFeel(this);
-		this.setTitle("ModMaker");
-		this.setVisible(true);
-		while(!done){
-			
+		Thread thread = new Thread(window);
+		thread.start();
+		while(!done.get()){
 		}
-		this.dispose();
+		window.done.set(true);
 	}
 }

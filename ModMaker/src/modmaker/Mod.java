@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import modmaker.export.FileUtils;
+import modmaker.file.FileUtils;
 import modmaker.gui.Gui;
 import modmaker.gui.InitFiles;
 
@@ -32,7 +32,7 @@ public class Mod {
 	public static HashMap<String, HashMap<String, ImageIcon>> images = new HashMap<String, HashMap<String, ImageIcon>>();
 	private ZipFile minecraftJar;
 	private Enumeration<? extends ZipEntry> entries;
-	private String minecraftVerstion = "1.6.4";
+	private String minecraftVerstion = "1.7.2";
 	public static final String minecraftForgeLocation = "http://files.minecraftforge.net/minecraftforge/minecraftforge-src-1.6.4-9.11.1.916.zip";
 	public static final String mCPlocation = "http://download1307.mediafire.com/v1xnkih5zdag/96mrmeo57cdf6zv/mcp811.zip";
 	public ArrayListSortItem<Item> items = new ArrayListSortItem<Item>();
@@ -49,11 +49,18 @@ public class Mod {
 		this.by = by;
 		this.exportSource = exportSource;
 		if(init){
+			InitFiles initilize = new InitFiles();
+			Thread thread = new Thread(initilize);
+			thread.start();
 			File minecraft = FileUtils.file(FileUtils.getMinecraftDirectory().getAbsolutePath() + "/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
 			System.out.println("Minecraft Directory: " + minecraft.getAbsolutePath());
 			if(minecraft.exists()){
-				this.initfiles();
-				this.initImages();
+				initilize.setProgressBarVisible(true);
+				this.initfiles(initilize);
+				initilize.setProgressBarVisible(false);
+				initilize.setDimentions(250, 100);
+				this.initImages(initilize);
+				initilize.setProgress(1000, "Initilizeing Vanilla Items");
 				try {
 					BufferedReader itemreader = new BufferedReader(new FileReader(FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/items.txt")));
 					String line;
@@ -77,17 +84,21 @@ public class Mod {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				this.loadlibs(initilize);
+				initilize.done.set(true);
 			}
 			else{
+				initilize.done.set(true);
 				Gui.stardardLookAndFeel(null);
 				JOptionPane.showMessageDialog(null, "No Minecraft install found\n" + FileUtils.getMinecraftDirectory().getAbsolutePath() + "\n" + FileUtils.getPlatform(), "Eorror", JOptionPane.ERROR_MESSAGE);
 				System.exit(-1);
 			}
+			initilize.done.set(true);
 		}
 	}
-	public void initImages(){
+	public void initImages(InitFiles init){
 		try {
-			minecraftJar = new ZipFile(System.getProperty("user.home") + "/.minecraft/versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar");
+			minecraftJar = new ZipFile(new File(FileUtils.getMinecraftDirectory(),"versions/" + this.minecraftVerstion + "/" + this.minecraftVerstion + ".jar"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,6 +108,7 @@ public class Mod {
 		while(entries.hasMoreElements()){
 			ZipEntry zipEntry = entries.nextElement();
 			if(zipEntry.getName().contains("/textures/blocks/") && !zipEntry.getName().contains("mcmeta")){
+				init.setProgress(1000, "Loading: " + zipEntry.getName().replace("assets/minecraft/textures/blocks/", ""));
 				try {
 					BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
 					BufferedImage image = ImageIO.read(pngZipedFile);
@@ -107,6 +119,7 @@ public class Mod {
 				}
 			}
 			if(zipEntry.getName().contains("/textures/items/") && !zipEntry.getName().contains("mcmeta")){
+				init.setProgress(1000, "Loading: " + zipEntry.getName().replace("assets/minecraft/textures/items/", ""));
 				try {
 					BufferedInputStream pngZipedFile = new BufferedInputStream(minecraftJar.getInputStream(zipEntry));
 					BufferedImage image = ImageIO.read(pngZipedFile);
@@ -140,12 +153,11 @@ public class Mod {
 	//		builder.append("1 " + item + "\n");
 	//	}
 	//	System.out.println(builder.toString());
-	private void initfiles(){
+	private void initfiles(InitFiles init){
 		File minecraftVerstionFile = FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/minecraftV" + this.minecraftVerstion + ((Boolean)Main.hasMcpPremistion).toString() + Main.version + "/");
 		if(!minecraftVerstionFile.exists()){
-			InitFiles init = new InitFiles();
-			Thread thread = new Thread(init);
-			thread.start();
+			
+			this.initlibs(init);
 			File minecraftForgeFile = FileUtils.file(FileUtils.getWorkingDirectory().getAbsolutePath() + "/MinecraftForge/");
 			minecraftForgeFile.mkdir();
 			for(java.io.File file : minecraftForgeFile.listFiles()){
@@ -166,6 +178,7 @@ public class Mod {
 				e.printStackTrace();
 			}
 			Enumeration<? extends ZipEntry> mFEntries = minecraftForge.entries();
+
 			int i = 0;
 			while(mFEntries.hasMoreElements()){
 				ZipEntry zipEntry = mFEntries.nextElement();
@@ -231,12 +244,94 @@ public class Mod {
 				}
 			}
 			init.setProgress(1000, "Finishing");
-			init.done = true;
-			init.dispose();
 			minecraftVerstionFile.mkdirs();
 		}
 	}
+	private void initlibs(InitFiles init){
+		init.setProgress(1, "Downloading Natives");
+		File libdir = new File(FileUtils.getWorkingDirectory(), "/libs/");
+		libdir.mkdirs();
+		switch(FileUtils.getPlatform()){
+		case WINDOWS:
+			this.initlibsWindows(init);
+			break;
+		case MACOS:
+			this.initlibsMac(init);
+			break;
+		case SOLARIS:
+			this.initlibsSolaris(init);
+			break;
+		case LINUX:
+			this.initlibsLinux(init);
+			break;
+		default:
+			this.initlibsLinux(init);
+			break;
+		}
+	}
+	private void loadlibs(InitFiles init){
+		for(File file : new File(FileUtils.getWorkingDirectory(), "/libs/").listFiles()){
+			if(System.getProperty("sun.arch.data.model").equals("64") && file.getName().contains("64")){
+				System.load(file.getAbsolutePath());
+				init.setProgress(1000, "Loading native libary: " + file.getName());
+			}
+			if(System.getProperty("sun.arch.data.model").equals("32") && file.getName().contains("32")){
+				System.load(file.getAbsolutePath());
+				init.setProgress(1000, "Loading native libary: " + file.getName());
+			}
+			if(FileUtils.getPlatform() == FileUtils.OS.MACOS){
+				System.load(file.getAbsolutePath());
+				init.setProgress(1000, "Loading native libary: " + file.getName());
+			}
+		}
+		System.setProperty("org.lwjgl.librarypath", new File(FileUtils.getWorkingDirectory(), "/libs/").getAbsolutePath());
+	}
+	private void initlibsWindows(InitFiles init){
+		String urls = "https://github.com/Pumuckl007/Mod_Maker/raw/master/native/windows/";
+		String[] files = new String[]{"jinput-dx8.dll",
+				"jinput-dx8_64.dll", "jinput-raw.dll",
+				"jinput-raw_64.dll", "lwjgl.dll",
+				"lwjgl64.dll", "OpenAL32.dll", "OpenAL64.dll"};
+		for(int progress = 0;progress < 7; progress ++){
+			init.setProgress((1 + progress) * 20, "Downloading " + files[progress]);
+			FileUtils.downloadFile(urls + files[progress], FileUtils.getWorkingDirectory().getAbsolutePath() + "/libs/" + files[progress]);
+		}
+	}
+	
+	private void initlibsMac(InitFiles init){
+		String urls = "https://github.com/Pumuckl007/Mod_Maker/raw/master/native/macosx/";
+		String[] files = new String[]{"libjinput-osx.jnilib",
+				"liblwjgl.jnilib", "openal.dylib"};
+		for(int progress = 0;progress < 3; progress ++){
+			init.setProgress((1 + progress) * 45, "Downloading " + files[progress]);
+			FileUtils.downloadFile(urls + files[progress], FileUtils.getWorkingDirectory().getAbsolutePath() + "/libs/" + files[progress]);
+		}
+	}
+	private void initlibsLinux(InitFiles init){
+		String urls = "https://github.com/Pumuckl007/Mod_Maker/raw/master/native/linux/";
+		String[] files = new String[]{"libjinput-linux.so",
+				"liblwjgl64.so", "libjinput-linux64.so",
+				"libopenal.so", "liblwjgl.so",
+				"libopenal64.so"};
+		for(int progress = 0;progress < 6; progress ++){
+			init.setProgress((1 + progress) * 25, "Downloading " + files[progress]);
+			FileUtils.downloadFile(urls + files[progress], FileUtils.getWorkingDirectory().getAbsolutePath() + "/libs/" + files[progress]);
+		}
+	}
+	private void initlibsSolaris(InitFiles init){
+		String urls = "https://github.com/Pumuckl007/Mod_Maker/raw/master/native/windows/";
+		String[] files = new String[]{"liblwjgl64.so",
+				"libopenal.so", "liblwjgl.so",
+				"libopenal64.so"};
+		for(int progress = 0;progress < 4; progress ++){
+			init.setProgress((1 + progress) * 30, "Downloading " + files[progress]);
+			FileUtils.downloadFile(urls + files[progress], FileUtils.getWorkingDirectory().getAbsolutePath() + "/libs/" + files[progress]);
+		}
+	}
 	private void download(InitFiles init){
+		init.setProgress(395, "Downloading Logo");
+		String imageUrl = "https://raw.github.com/Pumuckl007/modmaker/fee1d3c27b080f1d86af71d151888ee3bb432a32/Logo.png";
+		FileUtils.downloadFile(imageUrl, FileUtils.getWorkingDirectory().getAbsoluteFile() +  "/Logo.png");
 		init.setProgress(400, "Downloading ItemRefences");
 		String idUrl = "https://raw.github.com/Pumuckl007/Mod_Maker/master/downloadables/Items.txt";
 		FileUtils.downloadFile(idUrl, FileUtils.getWorkingDirectory().getAbsolutePath() + "/items.txt");

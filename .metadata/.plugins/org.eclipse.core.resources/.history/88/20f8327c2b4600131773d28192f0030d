@@ -1,0 +1,33 @@
+package modmaker.gui;
+
+public class GLThread implements Runnable{
+	private static Thread glThread;
+	private static GLThread instance;
+	public GLThread(){
+		new Thread(new StartThread()).start();
+	}
+	public static GLThread instance(){
+		return instance;
+	}
+	private class StartThread implements Runnable{
+		
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			instance = GLThread.this;
+			glThread = new Thread(GLThread.this);
+			glThread.start();
+			
+		}
+		
+	}
+	
+	@Override
+	public void run() {
+		
+	}
+}

@@ -1,0 +1,5 @@
+package modmaker.gui;
+
+public interface GLThreadReclass {
+	public void returnCall(Object[] objects);
+}

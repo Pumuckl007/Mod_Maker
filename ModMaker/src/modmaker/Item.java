@@ -11,13 +11,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import modmaker.gui.GLTask;
+import modmaker.gui.GLThread;
+import modmaker.gui.GLThreadRecall;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 import org.newdawn.slick.Color;
@@ -79,124 +83,153 @@ public class Item {
 		}
 		return null;
 	}
-	public ImageIcon getImageIcon(){
-		if(this.type == ItemType.Block){
-			Canvas c = new Canvas();
-			c.setSize(800, 800);
-			c.setVisible(true);
-			try {
-				Display.setParent(c);
-				Display.create();
-				Display.swapBuffers();
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-				GL11.glClearColor(0, 0, 0, 1);
-				GL11.glPushAttrib(GL11.GL_TRANSFORM_BIT);
-				GL11.glMatrixMode(GL11.GL_PROJECTION);
-				GL11.glLoadIdentity();
-				GLU.gluPerspective(45, 1, 0.005F, 100);
-				GL11.glPopAttrib();
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	public ImageIcon getImageIcon(int x, int y){
+		ItemGLTask task;
+		GLThread.addTask(task = new ItemGLTask(this, x,y));
+		while(!task.isDone.get()){
+			
+		}
+		return task.icon;
+	}
+	private class ItemGLTask implements GLTask{
+		public Item item;
+		public int x,y;
+		public AtomicBoolean isDone = new AtomicBoolean(false);
+		public ImageIcon icon = null;
+		public ItemGLTask(Item item, int x, int y){
+			this.item = item;
+			this.x = x;
+			this.y = y;
+		}
+		@Override
+		public GLThreadRecall getReCall() {
+			return new GLThreadRecall(){
 
-
-				Texture texture;
-				if(this.overwriteImage != null){
-					ByteArrayOutputStream os = new ByteArrayOutputStream();
-					BufferedImage bi = new BufferedImage(
-							this.overwriteImage.getIconWidth(),
-							this.overwriteImage.getIconHeight(),
-							BufferedImage.TYPE_INT_RGB);
-					Graphics g = bi.createGraphics();
-					this.overwriteImage.paintIcon(null, g, 0,0);
-					g.dispose();
-					ImageIO.write(bi,"png", os); 
-					InputStream input = new ByteArrayInputStream(os.toByteArray());
-					texture = TextureLoader.getTexture("PNG", input);
+				@Override
+				public void returnCall(Object[] objects) {
+					if(objects != null)
+						if(objects[0] != null)
+							icon = new ImageIcon( ((ImageIcon) objects[0]).getImage().getScaledInstance(x, y,  java.awt.Image.SCALE_DEFAULT));
+					isDone.set(true);
 				}
-				else
-					texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(this.image.getAbsolutePath()), GL11.GL_LINEAR);
-				Color.white.bind();
-				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-				texture.bind();
-				GL11.glTranslated(-1, -0.5, -4);
-				GL11.glRotated(35, 1, 0, 0);
-				GL11.glRotated(-45, 0, 1, 0);
-				GL11.glScaled(1.5, 1.5, 1.5);
+				
+			};
+		}
 
-				GL11.glBegin(GL11.GL_QUADS);{
-					GL11.glTexCoord2d(1, 1);
-					GL11.glVertex3d(0, 1, 0);
-					GL11.glTexCoord2d(1, 0);
-					GL11.glVertex3d(1, 1, 0);
-					GL11.glTexCoord2d(0, 0);
-					GL11.glVertex3d(1, 1, -1);
-					GL11.glTexCoord2d(0, 1);
-					GL11.glVertex3d(0, 1, -1);
-					GL11.glEnd();
-					GL11.glBegin(GL11.GL_QUADS);
-					GL11.glTexCoord2d(1, 1);
-					GL11.glVertex3d(1, 0, 0);
-					GL11.glTexCoord2d(1, 0);
-					GL11.glVertex3d(1, 1, 0);
-					GL11.glTexCoord2d(0, 0);
-					GL11.glVertex3d(1, 1, -1);
-					GL11.glTexCoord2d(0, 1);
-					GL11.glVertex3d(1, 0, -1);
-					GL11.glEnd();
-					GL11.glBegin(GL11.GL_QUADS);
-					GL11.glTexCoord2d(1, 1);
-					GL11.glVertex3d(0, 0,0);
-					GL11.glTexCoord2d(1, 0);
-					GL11.glVertex3d(0, 1,0);
-					GL11.glTexCoord2d(0, 0);
-					GL11.glVertex3d(1, 1,0);
-					GL11.glTexCoord2d(0, 1);
-					GL11.glVertex3d(1, 0,0);
-				} GL11.glEnd();
+		@Override
+		public Object[] runTask(Canvas c) {
 
-				Display.update();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			GL11.glReadBuffer(GL11.GL_FRONT);
-			int width = Display.getDisplayMode().getWidth();
-			int height= Display.getDisplayMode().getHeight();
-			int bpp = 4;
-			ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
-			GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer );
-			BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
-			for(int x = 0; x < width; x++)
-				for(int y = 0; y < height; y++)
-				{
-					int i = (x + (width * y)) * bpp;
-					int r = buffer.get(i) & 0xFF;
-					int g = buffer.get(i + 1) & 0xFF;
-					int b = buffer.get(i + 2) & 0xFF;
-					int a = 0xFF;
-					if(r == 0 && g == 0 && b == 0){
-						a = 0x00;
+			if(this.item.type == ItemType.Block){
+				try {
+					if(this.item.overwriteImage != null | this.item.image.exists())
+						return null;
+					c.setVisible(true);
+					c.setSize(x, y);
+					Display.setParent(c);
+					Display.create();
+					Display.swapBuffers();
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
+					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+					
+					GL11.glPushAttrib(GL11.GL_TRANSFORM_BIT);
+					GL11.glMatrixMode(GL11.GL_PROJECTION);
+					GL11.glLoadIdentity();
+					GLU.gluPerspective(45, 1, 0.005F, 100);
+					GL11.glPopAttrib();
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					Texture texture = null;
+					if(this.item.overwriteImage != null){
+						ByteArrayOutputStream os = new ByteArrayOutputStream();
+						BufferedImage bi = new BufferedImage(
+								this.item.overwriteImage.getIconWidth(),
+								this.item.overwriteImage.getIconHeight(),
+								BufferedImage.TYPE_INT_RGB);
+						Graphics g = bi.createGraphics();
+						this.item.overwriteImage.paintIcon(null, g, 0,0);
+						g.dispose();
+						ImageIO.write(bi,"png", os); 
+						InputStream input = new ByteArrayInputStream(os.toByteArray());
+						texture = TextureLoader.getTexture("PNG", input);
 					}
-					image.setRGB(x, height - (y + 1), (a << 24) | (r << 16) | (g << 8) | b);
+					else if(this.item.image.exists())
+						texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(this.item.image.getAbsolutePath()), GL11.GL_LINEAR);
+					Color.white.bind();
+					GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+					if(texture == null){
+						return null;
+					}
+					texture.bind();
+					GL11.glTranslated(-1, -0.5, -4);
+					GL11.glRotated(35, 1, 0, 0);
+					GL11.glRotated(-45, 0, 1, 0);
+					GL11.glScaled(1.5, 1.5, 1.5);
+					GL11.glBegin(GL11.GL_QUADS);{
+						GL11.glTexCoord2d(1, 1);
+						GL11.glVertex3d(0, 1, 0);
+						GL11.glTexCoord2d(1, 0);
+						GL11.glVertex3d(1, 1, 0);
+						GL11.glTexCoord2d(0, 0);
+						GL11.glVertex3d(1, 1, -1);
+						GL11.glTexCoord2d(0, 1);
+						GL11.glVertex3d(0, 1, -1);
+						GL11.glEnd();
+						GL11.glBegin(GL11.GL_QUADS);
+						GL11.glTexCoord2d(1, 1);
+						GL11.glVertex3d(1, 0, 0);
+						GL11.glTexCoord2d(1, 0);
+						GL11.glVertex3d(1, 1, 0);
+						GL11.glTexCoord2d(0, 0);
+						GL11.glVertex3d(1, 1, -1);
+						GL11.glTexCoord2d(0, 1);
+						GL11.glVertex3d(1, 0, -1);
+						GL11.glEnd();
+						GL11.glBegin(GL11.GL_QUADS);
+						GL11.glTexCoord2d(1, 1);
+						GL11.glVertex3d(0, 0,0);
+						GL11.glTexCoord2d(1, 0);
+						GL11.glVertex3d(0, 1,0);
+						GL11.glTexCoord2d(0, 0);
+						GL11.glVertex3d(1, 1,0);
+						GL11.glTexCoord2d(0, 1);
+						GL11.glVertex3d(1, 0,0);
+					} GL11.glEnd();
 
+					Display.update();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			for(int x = 0; x < width; x ++)
-				for(int y = 0; y < height; y++){
-					int rgb = image.getRGB(x, y);
-					int a = rgb >> 24;
-					int r = (rgb << 8) >> 24;
-					int g = (rgb << 16) >> 16;
-					int b = (rgb << 24) >>8;
-					rgb = ((a << 24) | (r+g+b)/3);
-					image.setRGB(x, y, rgb);
-				}
-			Display.destroy();
-			return new ImageIcon(image);
+				GL11.glReadBuffer(GL11.GL_FRONT);
+				int width = Display.getWidth();
+				int height= Display.getHeight();
+				int bpp = 4;
+				ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
+				GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer );
+				BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+				for(int x = 0; x < width; x++)
+					for(int y = 0; y < height; y++)
+					{
+						int i = (x + (width * y)) * bpp;
+						int r = buffer.get(i) & 0xFF;
+						int g = buffer.get(i + 1) & 0xFF;
+						int b = buffer.get(i + 2) & 0xFF;
+						int a = 0xFF;
+						if(r == 0 && g == 0 && b == 0){
+							a = 0x00;
+						}
+						image.setRGB(x, height - (y + 1), (a << 24) | (r << 16) | (g << 8) | b);
+
+					}
+				Display.destroy();
+				c.setVisible(false);
+				return new Object[]{new ImageIcon(image)};
+			}
+			if(this.item.overwriteImage != null){
+				return new Object[]{this.item.overwriteImage};
+			}
+			return new Object[]{new ImageIcon(this.item.image.getAbsolutePath())};
+		
 		}
-		if(this.overwriteImage != null){
-			return this.overwriteImage;
-		}
-		return new ImageIcon(this.image.getAbsolutePath());
+		
 	}
 }

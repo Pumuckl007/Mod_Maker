@@ -1,5 +1,6 @@
 package modmaker.gui;
 
+import java.awt.Canvas;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
@@ -46,6 +47,7 @@ public class NewRecipy extends JDialog implements ActionListener, DragSourceList
 	public StringSelection transferable;
 	public DropTarget slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9;
 	private JPanel panel;
+	public Canvas c;
 	public NewRecipy(JFrame parent, String title, DialogNewRecipy recipy) {
 		super(parent, title, true);
 		Point p = parent.getLocation(); 
@@ -76,6 +78,12 @@ public class NewRecipy extends JDialog implements ActionListener, DragSourceList
 		layout.putConstraint(SpringLayout.NORTH, items,20,SpringLayout.NORTH, this.getContentPane());
 		layout.putConstraint(SpringLayout.EAST, items,-20,SpringLayout.EAST, this.getContentPane());
 		this.setButtonStuff(layout);
+		this.add(c = new Canvas());
+		layout.putConstraint(SpringLayout.WEST, c,0,SpringLayout.WEST, this.getContentPane());
+		layout.putConstraint(SpringLayout.WEST, c,58,SpringLayout.EAST, this.getContentPane());
+		layout.putConstraint(SpringLayout.NORTH, c,58,SpringLayout.SOUTH, this.getContentPane());
+		layout.putConstraint(SpringLayout.NORTH, c,0,SpringLayout.NORTH, this.getContentPane());
+
 	}
 	public JScrollPane drawTable(){
 		ds = new DragSource();
@@ -216,7 +224,7 @@ public class NewRecipy extends JDialog implements ActionListener, DragSourceList
 		@Override
 		public void drop(DropTargetDropEvent dtde) {
 			try {
-				ImageIcon icon = Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getImageIcon();
+				ImageIcon icon = Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getImageIcon(58,58);
 				this.button.setIcon(new ImageIcon(icon.getImage().getScaledInstance((int)58, (int)58, Image.SCALE_DEFAULT)));
 				this.button.setItem(Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName());
 				this.button.setToolTipText(Mod.vannilaItemLookUp.get(dtde.getTransferable().getTransferData(DataFlavor.stringFlavor)).getName() + " (" +
